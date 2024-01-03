@@ -1,0 +1,27 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "build-test",
+			"type": "shell",
+			"command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
+			"args": [
+				"-fdiagnostics-color=always",
+				"-g",
+                "-o",
+                "${workspaceFolder}/Win/Tetris.exe",
+				"-I./include",
+                "${workspaceFolder}/Win/Brick.cpp",
+				"${workspaceFolder}/Win/Tetris.cpp"
+			],
+			"options": {
+				"cwd": "C:\\msys64\\ucrt64\\bin"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build",
+			"detail": "compiler: C:\\msys64\\ucrt64\\bin\\g++.exe"
+		}
+	]
+}
