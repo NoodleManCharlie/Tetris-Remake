@@ -25,6 +25,16 @@ vector<vector<int>> Brick::SquareBrick::getLowest(vector<int> brick1, vector<int
 
     return hold;
 }
+vector<int> Brick::SquareBrick::getSingleLowest(vector<int> brick1)
+{
+    vector<int> hold;
+    if(brick1[1] == 0)
+    {
+        hold = brick1;
+    }
+
+    return hold;
+}
 
 vector<vector<int>> Brick::LBrick::getLowest(vector<int> brick1, vector<int> brick2, vector<int> brick3, vector<int> brick4)
 {

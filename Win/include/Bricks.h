@@ -15,6 +15,7 @@ class Brick
                 vector<int> brick4 = {1, 1}; 
 
                 vector<vector<int>> getLowest(vector<int> brick1, vector<int> brick2, vector<int> brick3, vector<int> brick4);
+                vector<int> getSingleLowest(vector<int> brick1);
 
         };
 

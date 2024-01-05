@@ -341,6 +341,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
     int yPos = 0;
     int usedBrick;
     bool inAir = true;
+    vector<vector<int>> holder;
 
     while(game)
     {
@@ -366,6 +367,8 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
         {
             usedBrick = 1 + rand() % 8;
             brickOnScreen = true;
+            yPos += 1;
+
         }
         else if(brickOnScreen)
         {
@@ -378,6 +381,8 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
             Brick::StraightBrick straightBrick;
             int i;
             int n;
+
+            usedBrick = 1;
 
             switch(usedBrick)
             {
@@ -392,15 +397,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
                         moveBlock(fullBoard, "[ ]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     }
 
-                    vector<vector<int>> hold;
-                    hold = sqrBrick.getLowest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
-
-                    if(((hold[0][1]) + yPos) == boardHeight)
-                    {
-                        brickOnScreen = false;
-                        yPos = 0;
-                        inAir = false;
-                    }
+                    holder = sqrBrick.getLowest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
 
                     brickOnScreen = true;
                     break;
@@ -492,17 +489,20 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
                     break;
                 }
             }
-        }
-        if(yPos < (boardHeight-2))
-        {
-            yPos += 1;
-            inAir = true;
-        }
-        else if(yPos == (boardHeight-2))
-        {
-            brickOnScreen = false;
-            yPos = 0;
-            inAir = false;
+            //std::cout << holder[0][1];
+            int position = holder[0][1];
+            if(position + yPos == boardHeight-1)
+            {
+                brickOnScreen = false;
+                yPos = 0;
+                inAir = false;
+                brickOnScreen = false;
+            }
+            else if(yPos < (boardHeight))
+            {
+                yPos += 1;
+                inAir = true;
+            }
         }
     }
     
