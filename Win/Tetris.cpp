@@ -325,14 +325,6 @@ void moveBlock( map<int, vector<string>>& fullBoard, string fill, int usedBrick,
             }
 }
 
-vector<Brick::SquareBrick*> squareBricks = {};
-vector<Brick::LBrick*> lBricks = {};
-vector<Brick::LBackwardsBrick*> lBackwardsBricks = {};
-vector<Brick::TBrick*> tBricks = {};
-vector<Brick::ZBrick*> zBricks = {};
-vector<Brick::ZBackwardsBrick*> zBackwardsBricks = {};
-vector<Brick::StraightBrick*> straightBricks = {};
-
 string brickType;
 
 void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
@@ -342,6 +334,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
     int usedBrick;
     bool inAir = true;
     vector<vector<int>> holder;
+    vector<vector<int>> heights;
 
     while(game)
     {
@@ -368,6 +361,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
             usedBrick = 1 + rand() % 8;
             brickOnScreen = true;
             yPos += 1;
+            inAir = true;
 
         }
         else if(brickOnScreen)
@@ -382,7 +376,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
             int i;
             int n;
 
-            usedBrick = 1;
+            //usedBrick = 1;
 
             switch(usedBrick)
             {
@@ -391,15 +385,22 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
                     brickType = "Square";
 
                     moveBlock(fullBoard, "[/]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
-                    printBoard(fullBoard);
+                    printBoard(fullBoard);  
+                    holder = sqrBrick.getLowest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
+                    heights = sqrBrick.getHighest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
+
+                    int position = holder[0][1];
+                    if(position + yPos == (boardHeight-(heights[0][1])))
+                    {
+                        brickOnScreen = false;
+                        yPos = 0;
+                        inAir = false;
+                    }
                     if(inAir)
                     {
                         moveBlock(fullBoard, "[ ]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     }
 
-                    holder = sqrBrick.getLowest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
-
-                    brickOnScreen = true;
                     break;
                 }
                 case(2):
@@ -408,12 +409,21 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
 
                     moveBlock(fullBoard, "[/]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     printBoard(fullBoard);
+                    holder = lBrick.getLowest(lBrick.brick1, lBrick.brick2, lBrick.brick3, lBrick.brick4);
+                    heights = lBrick.getHighest(lBrick.brick1, lBrick.brick2, lBrick.brick3, lBrick.brick4);
+
+                    int position = holder[0][1];
+                    if(position + yPos == (boardHeight-(heights[0][1])))
+                    {
+                        brickOnScreen = false;
+                        yPos = 0;
+                        inAir = false;
+                    }
                     if(inAir)
                     {
                         moveBlock(fullBoard, "[ ]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     }
 
-                    brickOnScreen = true;
                     break;
                 }
                 case(3):
@@ -421,14 +431,22 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
                     brickType = "LBack";
 
                     moveBlock(fullBoard, "[/]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
-                    fullBoard[i+yPos][n] = "[/]";
                     printBoard(fullBoard);
+                    holder = lBackBrick.getLowest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
+                    heights = lBackBrick.getHighest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
+
+                    int position = holder[0][1];
+                    if(position + yPos == (boardHeight-(heights[0][1])))
+                    {
+                        brickOnScreen = false;
+                        yPos = 0;
+                        inAir = false;
+                    }
                     if(inAir)
                     {
                         moveBlock(fullBoard, "[ ]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     }
 
-                    brickOnScreen = true;
                     break;
                 }
                 case(4):
@@ -437,12 +455,21 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
 
                     moveBlock(fullBoard, "[/]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     printBoard(fullBoard);
+                    holder = tBrick.getLowest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
+                    heights = tBrick.getHighest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
+
+                    int position = holder[0][1];
+                    if(position + yPos == (boardHeight-(heights[0][1])))
+                    {
+                        brickOnScreen = false;
+                        yPos = 0;
+                        inAir = false;
+                    }
                     if(inAir)
                     {
                         moveBlock(fullBoard, "[ ]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     }
 
-                    brickOnScreen = true;
                     break;
                 }
                 case(5):
@@ -451,12 +478,21 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
 
                     moveBlock(fullBoard, "[/]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     printBoard(fullBoard);
+                    holder = zBrick.getLowest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
+                    heights = zBrick.getHighest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
+
+                    int position = holder[0][1];
+                    if(position + yPos == (boardHeight-(heights[0][1])))
+                    {
+                        brickOnScreen = false;
+                        yPos = 0;
+                        inAir = false;
+                    }
                     if(inAir)
                     {
                         moveBlock(fullBoard, "[ ]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     }
 
-                    brickOnScreen = true;
                     break;
                 }
                 case(6):
@@ -464,14 +500,22 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
                     brickType = "ZBack";
 
                     moveBlock(fullBoard, "[/]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
-                    fullBoard[i+yPos][n] = "[/]";
                     printBoard(fullBoard);
+                    holder = zBackBrick.getLowest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
+                    heights = zBackBrick.getHighest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
+
+                    int position = holder[0][1];
+                    if(position + yPos == (boardHeight-(heights[0][1])))
+                    {
+                        brickOnScreen = false;
+                        yPos = 0;
+                        inAir = false;
+                    }
                     if(inAir)
                     {
                         moveBlock(fullBoard, "[ ]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     }
 
-                    brickOnScreen = true;
                     break;
                 }
                 case(7):
@@ -480,32 +524,39 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
 
                     moveBlock(fullBoard, "[/]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     printBoard(fullBoard);
+                    holder = straightBrick.getLowest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
+                    heights = straightBrick.getHighest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
+
+                    int position = holder[0][1];
+                    if(position + yPos == (boardHeight-(heights[0][1])))
+                    {
+                        brickOnScreen = false;
+                        yPos = 0;
+                        inAir = false;
+                    }
                     if(inAir)
                     {
                         moveBlock(fullBoard, "[ ]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     }
 
-                    brickOnScreen = true;
                     break;
                 }
             }
-            //std::cout << holder[0][1];
             int position = holder[0][1];
-            if(position + yPos == boardHeight-1)
+            if(position + yPos == (boardHeight-1))
             {
                 brickOnScreen = false;
                 yPos = 0;
                 inAir = false;
-                brickOnScreen = false;
             }
-            else if(yPos < (boardHeight))
+            if(yPos < (boardHeight-1))
             {
                 yPos += 1;
                 inAir = true;
             }
         }
     }
-    
+ 
 }
 
 int main() 
@@ -546,3 +597,10 @@ int main()
     std::cin >> response;
     return 0;
 }
+
+/* TO ADD
+-Frame Buffers (Maybe it will help the smoothness of the program? As in not the fill in of the current)
+-Music? Be a good way to learn how
+-Clean inputs, THIS IS A MUST
+-Faster Falling
+*/

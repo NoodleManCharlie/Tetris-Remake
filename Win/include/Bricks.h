@@ -15,7 +15,7 @@ class Brick
                 vector<int> brick4 = {1, 1}; 
 
                 vector<vector<int>> getLowest(vector<int> brick1, vector<int> brick2, vector<int> brick3, vector<int> brick4);
-                vector<int> getSingleLowest(vector<int> brick1);
+                vector<vector<int>> getHighest(vector<int> brick1, vector<int> brick2, vector<int> brick3, vector<int> brick4);
 
         };
 
@@ -27,6 +27,7 @@ class Brick
                 vector<int> brick4 = {1, 2}; 
 
                 vector<vector<int>> getLowest(vector<int> brick1, vector<int> brick2, vector<int> brick3, vector<int> brick4);
+                vector<vector<int>> getHighest(vector<int> brick1, vector<int> brick2, vector<int> brick3, vector<int> brick4);
         };
 
         class LBackwardsBrick {
@@ -37,6 +38,7 @@ class Brick
                 vector<int> brick4 = {0, 2}; 
 
                 vector<vector<int>> getLowest(vector<int> brick1, vector<int> brick2, vector<int> brick3, vector<int> brick4);
+                vector<vector<int>> getHighest(vector<int> brick1, vector<int> brick2, vector<int> brick3, vector<int> brick4);
         };
 
         class TBrick {
@@ -47,6 +49,7 @@ class Brick
                 vector<int> brick4 = {1, 1}; 
 
                 vector<vector<int>> getLowest(vector<int> brick1, vector<int> brick2, vector<int> brick3, vector<int> brick4);
+                vector<vector<int>> getHighest(vector<int> brick1, vector<int> brick2, vector<int> brick3, vector<int> brick4);
         };
 
         class ZBrick {
@@ -57,6 +60,7 @@ class Brick
                 vector<int> brick4 = {1, 2}; 
 
                 vector<vector<int>> getLowest(vector<int> brick1, vector<int> brick2, vector<int> brick3, vector<int> brick4);
+                vector<vector<int>> getHighest(vector<int> brick1, vector<int> brick2, vector<int> brick3, vector<int> brick4);
         };
 
         class ZBackwardsBrick {
@@ -67,6 +71,7 @@ class Brick
                 vector<int> brick4 = {2, 1}; 
 
                 vector<vector<int>> getLowest(vector<int> brick1, vector<int> brick2, vector<int> brick3, vector<int> brick4);
+                vector<vector<int>> getHighest(vector<int> brick1, vector<int> brick2, vector<int> brick3, vector<int> brick4);
         };
 
         class StraightBrick {
@@ -77,6 +82,7 @@ class Brick
                 vector<int> brick4 = {3, 0}; 
 
                 vector<vector<int>> getLowest(vector<int> brick1, vector<int> brick2, vector<int> brick3, vector<int> brick4);
+                vector<vector<int>> getHighest(vector<int> brick1, vector<int> brick2, vector<int> brick3, vector<int> brick4);
         };
 };
 
