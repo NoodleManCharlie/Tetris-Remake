@@ -610,3 +610,17 @@ int main()
 -Faster Falling
 -Roatation
 */
+
+/*
+USEFUL RESEARCH?
+
+For Key inputs - maybe SDL 2 could be useful?
+https://www.libsdl.org/ 
+
+SDL according to Geeks for Geeks
+"SDL is Simple DirectMedia Layer.It is a cross-platform development library designed to provide low level access to audio,
+keyboard, mouse, joystick, and graphics hardware via OpenGL and Direct3D.It can be used to make animations and video games.  
+It basically provides a set of APIs to interact with various devices like graphics hardware, audio, keyboard, mouse, etc."
+
+Look into this and how it deals with graphics. Also how widley it is used
+*/
