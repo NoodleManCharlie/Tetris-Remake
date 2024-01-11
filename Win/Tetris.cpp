@@ -11,6 +11,7 @@
 #include <cstdlib>
 #include <time.h> 
 #include <algorithm>
+#include <Windows.h>
 
 #include "include/Bricks.h"
 
@@ -354,7 +355,10 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
             counter++;
         }
 
-
+        if(GetKeyState('A') & 0x8000)
+        {
+            // Do stuff
+        }
 
         if(!brickOnScreen)
         {
@@ -376,7 +380,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
             int i;
             int n;
 
-            //usedBrick = 1;
+            usedBrick = 7;
 
             switch(usedBrick)
             {
@@ -432,8 +436,8 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
 
                     moveBlock(fullBoard, "[/]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     printBoard(fullBoard);
-                    holder = lBackBrick.getLowest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
-                    heights = lBackBrick.getHighest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
+                    holder = lBackBrick.getLowest(lBackBrick.brick1, lBackBrick.brick2, lBackBrick.brick3, lBackBrick.brick4);
+                    heights = lBackBrick.getHighest(lBackBrick.brick1, lBackBrick.brick2, lBackBrick.brick3, lBackBrick.brick4);
 
                     int position = holder[0][1];
                     if(position + yPos == (boardHeight-(heights[0][1])))
@@ -455,8 +459,8 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
 
                     moveBlock(fullBoard, "[/]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     printBoard(fullBoard);
-                    holder = tBrick.getLowest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
-                    heights = tBrick.getHighest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
+                    holder = tBrick.getLowest(tBrick.brick1, tBrick.brick2, tBrick.brick3, tBrick.brick4);
+                    heights = tBrick.getHighest(tBrick.brick1, tBrick.brick2, tBrick.brick3, tBrick.brick4);
 
                     int position = holder[0][1];
                     if(position + yPos == (boardHeight-(heights[0][1])))
@@ -478,8 +482,8 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
 
                     moveBlock(fullBoard, "[/]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     printBoard(fullBoard);
-                    holder = zBrick.getLowest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
-                    heights = zBrick.getHighest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
+                    holder = zBrick.getLowest(zBrick.brick1, zBrick.brick2, zBrick.brick3, zBrick.brick4);
+                    heights = zBrick.getHighest(zBrick.brick1, zBrick.brick2, zBrick.brick3, zBrick.brick4);
 
                     int position = holder[0][1];
                     if(position + yPos == (boardHeight-(heights[0][1])))
@@ -501,8 +505,8 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
 
                     moveBlock(fullBoard, "[/]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     printBoard(fullBoard);
-                    holder = zBackBrick.getLowest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
-                    heights = zBackBrick.getHighest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
+                    holder = zBackBrick.getLowest(zBackBrick.brick1, zBackBrick.brick2, zBackBrick.brick3, zBackBrick.brick4);
+                    heights = zBackBrick.getHighest(zBackBrick.brick1, zBackBrick.brick2, zBackBrick.brick3, zBackBrick.brick4);
 
                     int position = holder[0][1];
                     if(position + yPos == (boardHeight-(heights[0][1])))
@@ -524,8 +528,8 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
 
                     moveBlock(fullBoard, "[/]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     printBoard(fullBoard);
-                    holder = straightBrick.getLowest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
-                    heights = straightBrick.getHighest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
+                    holder = straightBrick.getLowest(straightBrick.brick1, straightBrick.brick2, straightBrick.brick3, straightBrick.brick4);
+                    heights = straightBrick.getHighest(straightBrick.brick1, straightBrick.brick2, straightBrick.brick3, straightBrick.brick4);
 
                     int position = holder[0][1];
                     if(position + yPos == (boardHeight-(heights[0][1])))
@@ -542,14 +546,15 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
                     break;
                 }
             }
+
             int position = holder[0][1];
-            if(position + yPos == (boardHeight-1))
+            if(position + yPos == (boardHeight-(heights[0][1])))
             {
                 brickOnScreen = false;
                 yPos = 0;
                 inAir = false;
             }
-            if(yPos < (boardHeight-1))
+            if(yPos < (boardHeight-(heights[0][1])))
             {
                 yPos += 1;
                 inAir = true;
@@ -600,7 +605,8 @@ int main()
 
 /* TO ADD
 -Frame Buffers (Maybe it will help the smoothness of the program? As in not the fill in of the current)
--Music? Be a good way to learn how
+-Music? Be a good way to learn how to do audio
 -Clean inputs, THIS IS A MUST
 -Faster Falling
+-Roatation
 */
