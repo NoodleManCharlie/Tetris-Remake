@@ -13,6 +13,8 @@
 #include <algorithm>
 #include <Windows.h>
 
+#include <SDL2/SDL.h>
+
 #include "include/Bricks.h"
 
 using std::string;
@@ -564,6 +566,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
  
 }
 
+/*
 int main() 
 {   
     //time_t timeForRand = time(NULL);
@@ -601,6 +604,18 @@ int main()
 
     std::cin >> response;
     return 0;
+} */
+
+int main( int argc, char *argv[] )
+{
+    if ( SDL_Init( SDL_INIT_EVERYTHING ) < 0 )
+    {
+        std::cout << "SDL could not initialize! SDL Error: " << SDL_GetError( ) << std::endl;
+    }
+
+    system("pause");
+    
+    return EXIT_SUCCESS;
 }
 
 /* TO ADD

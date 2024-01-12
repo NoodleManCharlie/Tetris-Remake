@@ -8,11 +8,15 @@
 			"args": [
 				"-fdiagnostics-color=always",
 				"-g",
-                "-o",
+				"-I ${workspaceFolder}/Win/include",
+				"-L ${workspaceFolder}/Win/lib",
+				"-o",
                 "${workspaceFolder}/Win/Tetris.exe",
-				"-I./include",
                 "${workspaceFolder}/Win/Brick.cpp",
-				"${workspaceFolder}/Win/Tetris.cpp"
+				"${workspaceFolder}/Win/Tetris.cpp",
+				"-lmingw32",
+				"-lSDL2main",
+				"-lSDL2"
 			],
 			"options": {
 				"cwd": "C:\\msys64\\ucrt64\\bin"
