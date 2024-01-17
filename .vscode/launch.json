@@ -8,7 +8,7 @@
             "name": "run-test",
             "type": "cppdbg",
             "request": "launch",
-            "preLaunchTask": "build-test",
+            "preLaunchTask": "build",
             "program": "${workspaceFolder}/Win/Tetris.exe",
             "cwd": "${workspaceFolder}",
             "externalConsole": true,

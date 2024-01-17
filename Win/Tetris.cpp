@@ -13,7 +13,7 @@
 #include <algorithm>
 #include <Windows.h>
 
-#include <SDL2/SDL.h>
+//#include "include/SDL2/SDL.h"
 
 #include "include/Bricks.h"
 
@@ -382,7 +382,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
             int i;
             int n;
 
-            usedBrick = 7;
+            //usedBrick = 7;
 
             switch(usedBrick)
             {
@@ -566,7 +566,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
  
 }
 
-/*
+
 int main() 
 {   
     //time_t timeForRand = time(NULL);
@@ -604,19 +604,7 @@ int main()
 
     std::cin >> response;
     return 0;
-} */
-
-int main( int argc, char *argv[] )
-{
-    if ( SDL_Init( SDL_INIT_EVERYTHING ) < 0 )
-    {
-        std::cout << "SDL could not initialize! SDL Error: " << SDL_GetError( ) << std::endl;
-    }
-
-    system("pause");
-    
-    return EXIT_SUCCESS;
-}
+} 
 
 /* TO ADD
 -Frame Buffers (Maybe it will help the smoothness of the program? As in not the fill in of the current)

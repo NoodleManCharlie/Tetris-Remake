@@ -26,6 +26,10 @@
 			],
 			"group": "build",
 			"detail": "compiler: C:\\msys64\\ucrt64\\bin\\g++.exe"
+		},
+		{
+			"label": "build",
+			"command": "make",
 		}
 	]
 }
