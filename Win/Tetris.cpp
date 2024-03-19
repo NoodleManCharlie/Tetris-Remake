@@ -13,7 +13,8 @@
 #include <algorithm>
 #include <Windows.h>
 
-//#include "include/SDL2/SDL.h"
+#include "include/SDL2/SDL.h"
+
 
 #include "include/Bricks.h"
 
@@ -25,6 +26,53 @@ int score = 0;
 int highScore = 0;
 
 bool game = true;
+
+void keyInputs()
+{
+    //Check for a
+    if (GetAsyncKeyState(0x41) && released == true)
+    {
+        std::cout << "a pressed once";
+        released = false;
+    }
+    if (not GetAsyncKeyState(0x41))
+    {
+        released = true;
+    }
+
+    //Check for d
+    if (GetAsyncKeyState(0x44) && released == true)
+    {
+        std::cout << "d pressed once";
+        released = false;
+    }
+    if (not GetAsyncKeyState(0x44))
+    {
+        released = true;
+    }
+
+    //Check if w
+    if (GetAsyncKeyState(0x57) && released == true)
+    {
+        std::cout << "w pressed once";
+        released = false;
+    }
+    if (not GetAsyncKeyState(0x57))
+    {
+        released = true;
+    }
+
+    //Check is s
+    if (GetAsyncKeyState(0x53) && released == true)
+    {
+        std::cout << "s pressed once";
+        released = false;
+    }
+    if (not GetAsyncKeyState(0x53))
+    {
+        released = true;
+    }
+}
 
 //Used to make set all strings to the same length including spaces
 string setStringLength(string theString, int length, bool gameElsewise)
@@ -180,6 +228,8 @@ void updateScore(int addition)
     }
 }
 
+bool released = true;
+
 //Function used in fixedUpdate
 void wait(DWORD interval)
 {
@@ -187,7 +237,17 @@ void wait(DWORD interval)
 
 	while(GetTickCount() < (startTime + interval))
 	{
-		//DO NOTHING JUST WAIT
+        keyInputs();
+
+        if (GetAsyncKeyState(0x41) && released == true)
+        {
+            std::cout << "c pressed once";
+            released = false;
+        }
+        if (not GetAsyncKeyState(0x41))
+        {
+            released = true;
+        }
 	}
 }
 
@@ -203,6 +263,7 @@ void moveBlock( map<int, vector<string>>& fullBoard, string fill, int usedBrick,
 {
     int i;
     int n;
+    int xAdd;
 
             switch(usedBrick)
             {
@@ -210,16 +271,16 @@ void moveBlock( map<int, vector<string>>& fullBoard, string fill, int usedBrick,
                 {
                     i = sqrBrick.brick1[1];
                     n = sqrBrick.brick1[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
                     i = sqrBrick.brick2[1];
                     n = sqrBrick.brick2[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
                     i = sqrBrick.brick3[1];
                     n = sqrBrick.brick3[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
                     i = sqrBrick.brick4[1];
                     n = sqrBrick.brick4[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
 
                     break;
                 }
@@ -227,16 +288,16 @@ void moveBlock( map<int, vector<string>>& fullBoard, string fill, int usedBrick,
                 {
                     i = lBrick.brick1[1];
                     n = lBrick.brick1[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
                     i = lBrick.brick2[1];
                     n = lBrick.brick2[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
                     i = lBrick.brick3[1];
                     n = lBrick.brick3[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
                     i = lBrick.brick4[1];
                     n = lBrick.brick4[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
 
                     break;
                 }
@@ -244,16 +305,16 @@ void moveBlock( map<int, vector<string>>& fullBoard, string fill, int usedBrick,
                 {
                     i = lBackBrick.brick1[1];
                     n = lBackBrick.brick1[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
                     i = lBackBrick.brick2[1];
                     n = lBackBrick.brick2[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
                     i = lBackBrick.brick3[1];
                     n = lBackBrick.brick3[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
                     i = lBackBrick.brick4[1];
                     n = lBackBrick.brick4[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
 
                     break;
                 }
@@ -261,16 +322,16 @@ void moveBlock( map<int, vector<string>>& fullBoard, string fill, int usedBrick,
                 {
                     i = tBrick.brick1[1];
                     n = tBrick.brick1[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
                     i = tBrick.brick2[1];
                     n = tBrick.brick2[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
                     i = tBrick.brick3[1];
                     n = tBrick.brick3[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
                     i = tBrick.brick4[1];
                     n = tBrick.brick4[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
 
                     break;
                 }
@@ -278,16 +339,16 @@ void moveBlock( map<int, vector<string>>& fullBoard, string fill, int usedBrick,
                 {
                     i = zBrick.brick1[1];
                     n = zBrick.brick1[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
                     i = zBrick.brick2[1];
                     n = zBrick.brick2[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
                     i = zBrick.brick3[1];
                     n = zBrick.brick3[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
                     i = zBrick.brick4[1];
                     n = zBrick.brick4[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
 
                     break;
                 }
@@ -295,16 +356,16 @@ void moveBlock( map<int, vector<string>>& fullBoard, string fill, int usedBrick,
                 {
                     i = zBackBrick.brick1[1];
                     n = zBackBrick.brick1[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
                     i = zBackBrick.brick2[1];
                     n = zBackBrick.brick2[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
                     i = zBackBrick.brick3[1];
                     n = zBackBrick.brick3[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
                     i = zBackBrick.brick4[1];
                     n = zBackBrick.brick4[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
 
                     break;
                 }
@@ -312,16 +373,16 @@ void moveBlock( map<int, vector<string>>& fullBoard, string fill, int usedBrick,
                 {
                     i = straightBrick.brick1[1];
                     n = straightBrick.brick1[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
                     i = straightBrick.brick2[1];
                     n = straightBrick.brick2[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
                     i = straightBrick.brick3[1];
                     n = straightBrick.brick3[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
                     i = straightBrick.brick4[1];
                     n = straightBrick.brick4[0];
-                    fullBoard[i+yPos][n] = fill;
+                    fullBoard[i+yPos][n+xAdd] = fill;
 
                     break;
                 }
@@ -339,6 +400,8 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
     vector<vector<int>> holder;
     vector<vector<int>> heights;
 
+    SDL_Event event;
+
     while(game)
     {
         //DETERMINES HOW OFTEN UPDATES
@@ -353,13 +416,10 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
 
         for (timer = 0; timer < solutionTime; timer+=interval)
         {
-            wait(interval);
-            counter++;
-        }
 
-        if(GetKeyState('A') & 0x8000)
-        {
-            // Do stuff
+            wait(interval);
+
+            counter++;
         }
 
         if(!brickOnScreen)
@@ -562,13 +622,27 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
                 inAir = true;
             }
         }
+        if(SDL_PollEvent(&event))
+        {
+            if(event.type == SDL_KEYDOWN)
+            {
+                switch(event.key.keysym.sym)
+                {
+                    case(SDLK_a):
+                    {
+                        std::cout << "a pressed";
+                    }
+                }
+            }
+        }
     }
  
 }
 
 
-int main() 
+int main(int argv, char** args)
 {   
+
     //time_t timeForRand = time(NULL);
     srand(static_cast<unsigned int>(time(NULL)));
 
