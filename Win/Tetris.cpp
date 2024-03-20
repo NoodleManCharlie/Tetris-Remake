@@ -1,3 +1,4 @@
+//Built in Libraries
 #include <iostream>
 #include <vector>
 #include <map>
@@ -13,10 +14,12 @@
 #include <algorithm>
 #include <Windows.h>
 
+//Imported Libraries
 #include "include/SDL2/SDL.h"
 
-
+//My Classes
 #include "include/Bricks.h"
+#include "include/keyboard.h"
 
 using std::string;
 using std::vector;
@@ -27,52 +30,7 @@ int highScore = 0;
 
 bool game = true;
 
-void keyInputs()
-{
-    //Check for a
-    if (GetAsyncKeyState(0x41) && released == true)
-    {
-        std::cout << "a pressed once";
-        released = false;
-    }
-    if (not GetAsyncKeyState(0x41))
-    {
-        released = true;
-    }
-
-    //Check for d
-    if (GetAsyncKeyState(0x44) && released == true)
-    {
-        std::cout << "d pressed once";
-        released = false;
-    }
-    if (not GetAsyncKeyState(0x44))
-    {
-        released = true;
-    }
-
-    //Check if w
-    if (GetAsyncKeyState(0x57) && released == true)
-    {
-        std::cout << "w pressed once";
-        released = false;
-    }
-    if (not GetAsyncKeyState(0x57))
-    {
-        released = true;
-    }
-
-    //Check is s
-    if (GetAsyncKeyState(0x53) && released == true)
-    {
-        std::cout << "s pressed once";
-        released = false;
-    }
-    if (not GetAsyncKeyState(0x53))
-    {
-        released = true;
-    }
-}
+keyboard keys;
 
 //Used to make set all strings to the same length including spaces
 string setStringLength(string theString, int length, bool gameElsewise)
@@ -228,8 +186,6 @@ void updateScore(int addition)
     }
 }
 
-bool released = true;
-
 //Function used in fixedUpdate
 void wait(DWORD interval)
 {
@@ -237,17 +193,8 @@ void wait(DWORD interval)
 
 	while(GetTickCount() < (startTime + interval))
 	{
-        keyInputs();
+        keys.checkKeys();
 
-        if (GetAsyncKeyState(0x41) && released == true)
-        {
-            std::cout << "c pressed once";
-            released = false;
-        }
-        if (not GetAsyncKeyState(0x41))
-        {
-            released = true;
-        }
 	}
 }
 
@@ -407,10 +354,18 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
         //DETERMINES HOW OFTEN UPDATES
       //VVVVVVVVVVVVVVVVVVVVVVVV
         int solutionTime = 350; // 1 second
+        if(keys.releasedS == false)
+        {
+            solutionTime = 50; //7th of a second
+        }
+        else if(keys.releasedS == true)
+        {
+            solutionTime = 350;	// 1 second
+        }
 
         int timer;
         int counter = 0;
-        DWORD interval = 20;	// 10th of a second
+        DWORD interval = 20;
 
         DWORD start = GetTickCount(); // program starts
 
@@ -642,6 +597,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
 
 int main(int argv, char** args)
 {   
+    keys.keysInit();
 
     //time_t timeForRand = time(NULL);
     srand(static_cast<unsigned int>(time(NULL)));
