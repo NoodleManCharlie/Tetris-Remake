@@ -30,7 +30,23 @@ int highScore = 0;
 
 bool game = true;
 
+Brick::SquareBrick sqrBrick;
+Brick::LBrick lBrick;
+Brick::LBackwardsBrick lBackBrick;
+Brick::TBrick tBrick;
+Brick::ZBrick zBrick;
+Brick::ZBackwardsBrick zBackBrick;
+Brick::StraightBrick straightBrick;
+
+bool brickOnScreen = false;
+int yPos = 0;
+bool inAir = true;
+vector<vector<int>> holder;
+vector<vector<int>> heights;
+int usedBrick;
+
 keyboard keys;
+int xAdd;
 
 //Used to make set all strings to the same length including spaces
 string setStringLength(string theString, int length, bool gameElsewise)
@@ -186,19 +202,7 @@ void updateScore(int addition)
     }
 }
 
-//Function used in fixedUpdate
-void wait(DWORD interval)
-{
-	DWORD startTime = GetTickCount();
-
-	while(GetTickCount() < (startTime + interval))
-	{
-        keys.checkKeys();
-
-	}
-}
-
-void moveBlock( map<int, vector<string>>& fullBoard, string fill, int usedBrick, int yPos,
+void moveBlock( map<int, vector<string>>& fullBoard, string fill, int usedBrick, int yPos, vector<vector<int>> holder,
             Brick::SquareBrick     sqrBrick,
             Brick::LBrick          lBrick,
             Brick::LBackwardsBrick lBackBrick,
@@ -210,7 +214,6 @@ void moveBlock( map<int, vector<string>>& fullBoard, string fill, int usedBrick,
 {
     int i;
     int n;
-    int xAdd;
 
             switch(usedBrick)
             {
@@ -336,21 +339,74 @@ void moveBlock( map<int, vector<string>>& fullBoard, string fill, int usedBrick,
             }
 }
 
+int xAddBefore;
+
+//Function used in fixedUpdate
+void wait(DWORD interval, map<int, vector<string>>& fullBoard, int boardHeight, int boardWidth)
+{
+	DWORD startTime = GetTickCount();
+
+	while(GetTickCount() < (startTime + interval))
+	{
+        xAddBefore = xAdd;
+        xAdd += keys.checkKeys();
+        if(xAdd == -1)
+        {
+            xAdd = 0;
+        }
+        else if(xAdd == boardWidth-1)
+        {
+            xAdd = boardWidth-2;
+        }
+        else if(xAddBefore != xAdd)
+        {
+            
+            moveBlock(fullBoard, "[/]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
+            printBoard(fullBoard);  
+
+            holder = straightBrick.getLowest(straightBrick.brick1, straightBrick.brick2, straightBrick.brick3, straightBrick.brick4);
+            heights = straightBrick.getHighest(straightBrick.brick1, straightBrick.brick2, straightBrick.brick3, straightBrick.brick4);
+
+            int position = holder[0][1];
+            if(position + yPos == (boardHeight-(heights[0][1])))
+            {
+                brickOnScreen = false;
+                yPos = 0;
+                inAir = false;
+            }
+            if(inAir)
+            {
+                moveBlock(fullBoard, "[ ]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
+            }
+        }
+
+	}
+}
+
 string brickType;
 
-void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
+void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardWidth)
 {
-    bool brickOnScreen = false;
-    int yPos = 0;
-    int usedBrick;
-    bool inAir = true;
-    vector<vector<int>> holder;
-    vector<vector<int>> heights;
+    brickOnScreen = false;
+    yPos = 0;
+    inAir = true;
 
     SDL_Event event;
 
     while(game)
     {
+
+        int round = -1;
+        round += 1;
+
+        if(!brickOnScreen)
+        {
+            usedBrick = 1 + rand() % 8;
+            brickOnScreen = true;
+            yPos += 1;
+            inAir = true;
+            round = 0;
+        }
         //DETERMINES HOW OFTEN UPDATES
       //VVVVVVVVVVVVVVVVVVVVVVVV
         int solutionTime = 350; // 1 second
@@ -372,28 +428,13 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
         for (timer = 0; timer < solutionTime; timer+=interval)
         {
 
-            wait(interval);
+            wait(interval, fullBoard, boardHeight, boardWidth);
 
             counter++;
         }
 
-        if(!brickOnScreen)
+        if(brickOnScreen && round <= 1)
         {
-            usedBrick = 1 + rand() % 8;
-            brickOnScreen = true;
-            yPos += 1;
-            inAir = true;
-
-        }
-        else if(brickOnScreen)
-        {
-            Brick::SquareBrick sqrBrick;
-            Brick::LBrick lBrick;
-            Brick::LBackwardsBrick lBackBrick;
-            Brick::TBrick tBrick;
-            Brick::ZBrick zBrick;
-            Brick::ZBackwardsBrick zBackBrick;
-            Brick::StraightBrick straightBrick;
             int i;
             int n;
 
@@ -405,7 +446,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
                 {
                     brickType = "Square";
 
-                    moveBlock(fullBoard, "[/]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
+                    moveBlock(fullBoard, "[/]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     printBoard(fullBoard);  
                     holder = sqrBrick.getLowest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
                     heights = sqrBrick.getHighest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
@@ -419,7 +460,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
                     }
                     if(inAir)
                     {
-                        moveBlock(fullBoard, "[ ]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
+                        moveBlock(fullBoard, "[ ]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     }
 
                     break;
@@ -428,7 +469,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
                 {
                     brickType = "L";
 
-                    moveBlock(fullBoard, "[/]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
+                    moveBlock(fullBoard, "[/]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     printBoard(fullBoard);
                     holder = lBrick.getLowest(lBrick.brick1, lBrick.brick2, lBrick.brick3, lBrick.brick4);
                     heights = lBrick.getHighest(lBrick.brick1, lBrick.brick2, lBrick.brick3, lBrick.brick4);
@@ -442,7 +483,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
                     }
                     if(inAir)
                     {
-                        moveBlock(fullBoard, "[ ]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
+                        moveBlock(fullBoard, "[ ]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     }
 
                     break;
@@ -451,7 +492,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
                 {
                     brickType = "LBack";
 
-                    moveBlock(fullBoard, "[/]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
+                    moveBlock(fullBoard, "[/]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     printBoard(fullBoard);
                     holder = lBackBrick.getLowest(lBackBrick.brick1, lBackBrick.brick2, lBackBrick.brick3, lBackBrick.brick4);
                     heights = lBackBrick.getHighest(lBackBrick.brick1, lBackBrick.brick2, lBackBrick.brick3, lBackBrick.brick4);
@@ -465,7 +506,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
                     }
                     if(inAir)
                     {
-                        moveBlock(fullBoard, "[ ]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
+                        moveBlock(fullBoard, "[ ]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     }
 
                     break;
@@ -474,7 +515,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
                 {
                     brickType = "T";
 
-                    moveBlock(fullBoard, "[/]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
+                    moveBlock(fullBoard, "[/]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     printBoard(fullBoard);
                     holder = tBrick.getLowest(tBrick.brick1, tBrick.brick2, tBrick.brick3, tBrick.brick4);
                     heights = tBrick.getHighest(tBrick.brick1, tBrick.brick2, tBrick.brick3, tBrick.brick4);
@@ -488,7 +529,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
                     }
                     if(inAir)
                     {
-                        moveBlock(fullBoard, "[ ]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
+                        moveBlock(fullBoard, "[ ]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     }
 
                     break;
@@ -497,7 +538,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
                 {
                     brickType = "Z";
 
-                    moveBlock(fullBoard, "[/]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
+                    moveBlock(fullBoard, "[/]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     printBoard(fullBoard);
                     holder = zBrick.getLowest(zBrick.brick1, zBrick.brick2, zBrick.brick3, zBrick.brick4);
                     heights = zBrick.getHighest(zBrick.brick1, zBrick.brick2, zBrick.brick3, zBrick.brick4);
@@ -511,7 +552,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
                     }
                     if(inAir)
                     {
-                        moveBlock(fullBoard, "[ ]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
+                        moveBlock(fullBoard, "[ ]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     }
 
                     break;
@@ -520,7 +561,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
                 {
                     brickType = "ZBack";
 
-                    moveBlock(fullBoard, "[/]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
+                    moveBlock(fullBoard, "[/]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     printBoard(fullBoard);
                     holder = zBackBrick.getLowest(zBackBrick.brick1, zBackBrick.brick2, zBackBrick.brick3, zBackBrick.brick4);
                     heights = zBackBrick.getHighest(zBackBrick.brick1, zBackBrick.brick2, zBackBrick.brick3, zBackBrick.brick4);
@@ -534,7 +575,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
                     }
                     if(inAir)
                     {
-                        moveBlock(fullBoard, "[ ]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
+                        moveBlock(fullBoard, "[ ]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     }
 
                     break;
@@ -543,7 +584,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
                 {
                     brickType = "Straight";
 
-                    moveBlock(fullBoard, "[/]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
+                    moveBlock(fullBoard, "[/]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     printBoard(fullBoard);
                     holder = straightBrick.getLowest(straightBrick.brick1, straightBrick.brick2, straightBrick.brick3, straightBrick.brick4);
                     heights = straightBrick.getHighest(straightBrick.brick1, straightBrick.brick2, straightBrick.brick3, straightBrick.brick4);
@@ -557,7 +598,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
                     }
                     if(inAir)
                     {
-                        moveBlock(fullBoard, "[ ]", usedBrick, yPos, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
+                        moveBlock(fullBoard, "[ ]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
                     }
 
                     break;
@@ -577,19 +618,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight)
                 inAir = true;
             }
         }
-        if(SDL_PollEvent(&event))
-        {
-            if(event.type == SDL_KEYDOWN)
-            {
-                switch(event.key.keysym.sym)
-                {
-                    case(SDLK_a):
-                    {
-                        std::cout << "a pressed";
-                    }
-                }
-            }
-        }
+
     }
  
 }
@@ -630,7 +659,7 @@ int main(int argv, char** args)
     vector<string> board;
     map<int, vector<string>> fullBoard;
     fullBoard = createBoard(board, boardWidth, boardHeight, fullBoard);
-    fixedUpdate(fullBoard, boardHeight);
+    fixedUpdate(fullBoard, boardHeight, boardWidth);
 
     std::cin >> response;
     return 0;
