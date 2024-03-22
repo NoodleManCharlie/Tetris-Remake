@@ -25,7 +25,7 @@ class keyboard
             //Check for a
             if (GetAsyncKeyState(0x41) && releasedA == true)
             {
-                std::cout << "a pressed once";
+                //std::cout << "a pressed once";
                 releasedA = false;
                 return -1;
             }
