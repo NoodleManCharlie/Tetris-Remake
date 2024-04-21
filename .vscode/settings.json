@@ -49,5 +49,6 @@
         "sstream": "cpp",
         "cstdarg": "cpp",
         "cinttypes": "cpp"
-    }
+    },
+    "makefile.makePath": "make"
 }

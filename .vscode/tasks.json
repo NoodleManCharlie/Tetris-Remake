@@ -29,7 +29,7 @@
 		},
 		{
 			"label": "build",
-			"command": "make",
+			"command": "Makefile",
 		}
 	]
 }
