@@ -19,6 +19,7 @@
 
 // My Classes
 #include "include/Bricks.h"
+#include "include/Blocks.h"
 #include "include/keyboard.h"
 
 using std::map;
@@ -657,6 +658,14 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
 
 int main(int argv, char **args)
 {
+    Blocks blocksClass;
+
+    blocksClass.blocksInit();
+    std::cout << blocksClass.stashBlockPos[0][0] << blocksClass.stashBlockPos[0][1] << "\n" << blocksClass.stashBlockPos[1][0] << blocksClass.stashBlockPos[1][1] << "\n" << blocksClass.stashBlockPos[2][0] << blocksClass.stashBlockPos[2][1] << "\n" << blocksClass.stashBlockPos[3][0] << blocksClass.stashBlockPos[3][1] << "\n";
+    blocksClass.setCurrentBlock();
+    std::cout  << blocksClass.curBlockPos[0][0] << blocksClass.curBlockPos[0][1] << "\n" << blocksClass.curBlockPos[1][0] << blocksClass.curBlockPos[1][1] << "\n" << blocksClass.curBlockPos[2][0] << blocksClass.curBlockPos[2][1] << "\n" << blocksClass.curBlockPos[3][0] << blocksClass.curBlockPos[3][1] << "\n";
+    std::cout << blocksClass.stashBlockPos[0][0] << blocksClass.stashBlockPos[0][1] << "\n" << blocksClass.stashBlockPos[1][0] << blocksClass.stashBlockPos[1][1] << "\n" << blocksClass.stashBlockPos[2][0] << blocksClass.stashBlockPos[2][1] << "\n" << blocksClass.stashBlockPos[3][0] << blocksClass.stashBlockPos[3][1] << "\n";
+
     keys.keysInit();
 
     // time_t timeForRand = time(NULL);
