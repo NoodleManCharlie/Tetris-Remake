@@ -660,6 +660,7 @@ int main(int argv, char **args)
 {
     Blocks blocksClass;
 
+    std::cout << blocksClass.stashBlockPos[0][0] << blocksClass.stashBlockPos[0][1];
     blocksClass.blocksInit();
     std::cout << blocksClass.stashBlockPos[0][0] << blocksClass.stashBlockPos[0][1] << "\n" << blocksClass.stashBlockPos[1][0] << blocksClass.stashBlockPos[1][1] << "\n" << blocksClass.stashBlockPos[2][0] << blocksClass.stashBlockPos[2][1] << "\n" << blocksClass.stashBlockPos[3][0] << blocksClass.stashBlockPos[3][1] << "\n";
     blocksClass.setCurrentBlock();
