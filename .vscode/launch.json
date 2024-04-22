@@ -16,6 +16,19 @@
             "environment": [],
             "stopAtEntry": false,
             "MIMode": "gdb"
+        },
+        {
+            "name": "run",
+            "type": "cppdbg",
+            "request": "launch",
+            "preLaunchTask": "buildNewEmpire",
+            "program": "${workspaceFolder}/Win/Tetris.exe",
+            "cwd": "${workspaceFolder}",
+            "externalConsole": true,
+            "args": [],
+            "environment": [],
+            "stopAtEntry": false,
+            "MIMode": "gdb"
         }
     ]
 }
