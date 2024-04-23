@@ -5,6 +5,7 @@
 #include <vector>
 using std::vector;
 
+
 void Blocks::blocksInit()
 {
     srand(static_cast<unsigned int>(time(NULL)));
@@ -71,6 +72,7 @@ void Blocks::setStashBlock()
     }
     
 }
+
 
 /*
 vector<vector<int>> Brick::SquareBrick::getLowest(vector<int> brick1, vector<int> brick2, vector<int> brick3, vector<int> brick4)

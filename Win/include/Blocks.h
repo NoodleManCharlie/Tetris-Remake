@@ -17,11 +17,12 @@ class Blocks
         vector<vector<int>> stashBlockPos;
         vector<vector<int>> stashBlockSize;
 
-        //void blocksInit();
+        void blocksInit();
 
-        //void setCurrentBlock();
-        //void setStashBlock();
+        void setCurrentBlock();
+        void setStashBlock();
 
+        /*
         void blocksInit()
         {
             srand(static_cast<unsigned int>(time(NULL)));
@@ -88,6 +89,7 @@ class Blocks
             }
             
         }
+        */
 };
 /*
         class SquareBrick {

@@ -12,11 +12,12 @@
 				"-L ${workspaceFolder}/Win/lib",
 				"-o",
                 "${workspaceFolder}/Win/Tetris.exe",
+				"${workspaceFolder}/Win/Blocks.cpp",
                 "${workspaceFolder}/Win/Brick.cpp",
 				"${workspaceFolder}/Win/Tetris.cpp",
-				"-lmingw32",
-				"-lSDL2main",
-				"-lSDL2"
+				//"-lmingw32",
+				//"-lSDL2main",
+				//"-lSDL2"
 			],
 			"options": {
 				"cwd": "C:\\msys64\\ucrt64\\bin"
@@ -38,9 +39,12 @@
 				"-L ${workspaceFolder}/Win/lib",
 				"-o",
                 "${workspaceFolder}/Win/Tetris.exe",
+				"${workspaceFolder}/Win/Blocks.cpp",
                 "${workspaceFolder}/Win/Brick.cpp",
 				"${workspaceFolder}/Win/Tetris.cpp",
-				//"-lmingw32",
+				"-lmingw32",
+				//"-lSDL2main",
+				//"-lSDL2"
 			],
 			"options": { 
 				"cwd": "C:\\MinGW\\bin"

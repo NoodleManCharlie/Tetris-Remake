@@ -670,7 +670,7 @@ int main(int argv, char **args)
     keys.keysInit();
 
     // time_t timeForRand = time(NULL);
-    srand(static_cast<unsigned int>(time(NULL)));
+    srand(static_cast<unsigned int>(time(NULL) ));
 
     string response;
 

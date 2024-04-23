@@ -18,6 +18,19 @@
             "MIMode": "gdb"
         },
         {
+            "name": "run-testMSYS2",
+            "type": "cppdbg",
+            "request": "launch",
+            "preLaunchTask": "build-test",
+            "program": "${workspaceFolder}/Win/Tetris.exe",
+            "cwd": "${workspaceFolder}",
+            "externalConsole": true,
+            "args": [],
+            "environment": [],
+            "stopAtEntry": false,
+            "MIMode": "gdb"
+        },
+        {
             "name": "run",
             "type": "cppdbg",
             "request": "launch",
