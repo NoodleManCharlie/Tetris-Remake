@@ -7,12 +7,12 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fstream>
-//#include <sysinfoapi.h>
+#include <sysinfoapi.h>
 #include <sstream>
 #include <cstdlib>
 #include <time.h>
-#include <algorithm>
-#include <direct.h>
+#include <algorithm> 
+//#include <direct.h>
 
 // Imported Libraries
 #include "include/SDL2/SDL.h"
@@ -168,17 +168,25 @@ void printBoard(map<int, vector<string>> fullBoard)
 int folderStructure()
 {
     // Path to the directories
+    
     vector<const char *> directories = {"./main/libraries/map/highscore",
                                         "./main/libraries/iostream",
                                         "./main/libraries/vector",
                                         "./main/penguin",
                                         "./main/reset/donotenter/seriously/okbethatway/hahagetpranked"};
+    
+
+    //vector<LPCWSTR> directoriies = {"./main/libraries/map/highscore",
+    //                                    "./main/libraries/iostream",
+    //                                    "./main/libraries/vector",
+    //                                    "./main/penguin",
+    //                                    "./main/reset/donotenter/seriously/okbethatway/hahagetpranked"};
     // const char* dir = "./main/libraries";
     //  Structure which would store the metadata
 
     for (int i = 0; i <= directories.size(); i++)
     {
-        int check = _mkdir(directories[i]);
+        int check = mkdir(directories[i]);
 
         // check if directory is created or not
         if (!check)
@@ -657,8 +665,8 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
         }
     }
 }
-
-int main(int argv, char **args)
+//int argv, char **args
+int main()
 {
     std::cout << blocksClass.stashBlockPos[0][0] << blocksClass.stashBlockPos[0][1];
     blocksClass.blocksInit();
