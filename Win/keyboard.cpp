@@ -25,7 +25,7 @@ int keyboard::checkKeys()
         releasedA = false;
         return -1;
     }
-    if (not GetAsyncKeyState(0x41))
+    if (!(GetAsyncKeyState(0x41)))
     {
         //std::cout << "a released";
         releasedA = true;
@@ -38,7 +38,7 @@ int keyboard::checkKeys()
         releasedD = false;
         return 1;
     }
-    if (not GetAsyncKeyState(0x44))
+    if (!(GetAsyncKeyState(0x44)))
     {
         //std::cout << "d released";
         releasedD = true;
@@ -50,7 +50,7 @@ int keyboard::checkKeys()
         //std::cout << "w pressed once";
         releasedW = false;
     }
-    if (not GetAsyncKeyState(0x57))
+    if (!(GetAsyncKeyState(0x57)))
     {
         //std::cout << "w released";
         releasedW = true;
@@ -62,7 +62,7 @@ int keyboard::checkKeys()
         //std::cout << "s pressed once";
         releasedS = false;
     }
-    if (not GetAsyncKeyState(0x53))
+    if (!(GetAsyncKeyState(0x53)))
     {
         //std::cout << "s released";
         releasedS = true;

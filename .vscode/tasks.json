@@ -40,11 +40,9 @@
                 "${workspaceFolder}/Win/Tetris.exe",
                 "${workspaceFolder}/Win/Brick.cpp",
 				"${workspaceFolder}/Win/Tetris.cpp",
-				"-lmingw32",
-				"-lSDL2main",
-				"-lSDL2"
+				//"-lmingw32",
 			],
-			"options": {
+			"options": { 
 				"cwd": "C:\\MinGW\\bin"
 			},
 			"problemMatcher": [

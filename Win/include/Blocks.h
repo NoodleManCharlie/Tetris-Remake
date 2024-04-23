@@ -17,11 +17,78 @@ class Blocks
         vector<vector<int>> stashBlockPos;
         vector<vector<int>> stashBlockSize;
 
-        void blocksInit();
+        //void blocksInit();
 
-        void setCurrentBlock();
-        void setStashBlock();
+        //void setCurrentBlock();
+        //void setStashBlock();
 
+        void blocksInit()
+        {
+            srand(static_cast<unsigned int>(time(NULL)));
+            setStashBlock();
+        }
+
+        void setCurrentBlock()
+        {
+            Blocks::curBlockPos = stashBlockPos;
+            setStashBlock();
+        }
+
+        void setStashBlock()
+        {
+            bool checking;
+
+            int xIncrease;
+            int yIncrease;
+
+            vector<int> tempStashPos;
+
+            Blocks::stashBlockPos = {{0, 0}};
+            int curSize;
+
+            for (curSize = 0; curSize < Blocks::blockSize; curSize++)
+            {
+                checking = true;
+
+                xIncrease = rand() % 4 - 2;
+                yIncrease = rand() % 4 - 2;
+
+                tempStashPos = {stashBlockPos[curSize][0] + xIncrease, stashBlockPos[curSize][1] + yIncrease};
+
+                while(checking)
+                {
+                    bool fail;
+
+                    for (int i = 0; i < curSize; i++)
+                    {
+                        if(stashBlockPos[i] == tempStashPos)
+                        {
+                            checking = true;
+                            fail = true;
+                        }
+                        else
+                        {
+                            
+                            continue;
+                        }
+                    }
+
+                    if(fail)
+                    {
+                        xIncrease = rand() % 4 - 2;
+                        yIncrease = rand() % 4 - 2;
+
+                        tempStashPos = {stashBlockPos[curSize][0] + xIncrease, stashBlockPos[curSize][1] + yIncrease};
+                    }
+                    else
+                    {
+                        checking = false;
+                    }
+                }
+            }
+            
+        }
+};
 /*
         class SquareBrick {
             public:
@@ -35,7 +102,5 @@ class Blocks
 
         };
 */
-
-};
 
 #endif

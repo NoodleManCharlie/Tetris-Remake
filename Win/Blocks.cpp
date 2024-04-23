@@ -27,8 +27,9 @@ void Blocks::setStashBlock()
     vector<int> tempStashPos;
 
     Blocks::stashBlockPos = {{0, 0}};
+    int curSize;
 
-    for (int curSize = 0; curSize < Blocks::blockSize; curSize++)
+    for (curSize = 0; curSize < Blocks::blockSize; curSize++)
     {
         checking = true;
 
@@ -41,7 +42,7 @@ void Blocks::setStashBlock()
         {
             bool fail;
 
-            for(int i = 0; i < curSize; i++)
+            for (int i = 0; i < curSize; i++)
             {
                 if(stashBlockPos[i] == tempStashPos)
                 {

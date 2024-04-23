@@ -1,18 +1,18 @@
 // Built in Libraries
+#include <Windows.h>
 #include <iostream>
 #include <vector>
 #include <map>
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h>
 #include <fstream>
-#include <sysinfoapi.h>
+//#include <sysinfoapi.h>
 #include <sstream>
 #include <cstdlib>
 #include <time.h>
 #include <algorithm>
-#include <Windows.h>
+#include <direct.h>
 
 // Imported Libraries
 #include "include/SDL2/SDL.h"
@@ -30,6 +30,8 @@ int score = 0;
 int highScore = 0;
 
 bool game = true;
+
+Blocks blocksClass;
 
 Brick::SquareBrick sqrBrick;
 Brick::LBrick lBrick;
@@ -176,7 +178,7 @@ int folderStructure()
 
     for (int i = 0; i <= directories.size(); i++)
     {
-        int check = mkdir(directories[i]);
+        int check = _mkdir(directories[i]);
 
         // check if directory is created or not
         if (!check)
@@ -658,8 +660,6 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
 
 int main(int argv, char **args)
 {
-    Blocks blocksClass;
-
     std::cout << blocksClass.stashBlockPos[0][0] << blocksClass.stashBlockPos[0][1];
     blocksClass.blocksInit();
     std::cout << blocksClass.stashBlockPos[0][0] << blocksClass.stashBlockPos[0][1] << "\n" << blocksClass.stashBlockPos[1][0] << blocksClass.stashBlockPos[1][1] << "\n" << blocksClass.stashBlockPos[2][0] << blocksClass.stashBlockPos[2][1] << "\n" << blocksClass.stashBlockPos[3][0] << blocksClass.stashBlockPos[3][1] << "\n";
