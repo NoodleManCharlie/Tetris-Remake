@@ -7,15 +7,15 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fstream>
-#include <sysinfoapi.h>
+//#include <sysinfoapi.h>
 #include <sstream>
 #include <cstdlib>
 #include <time.h>
 #include <algorithm> 
-//#include <direct.h>
+#include <direct.h>
 
 // Imported Libraries
-#include "include/SDL2/SDL.h"
+//#include "include/SDL2/SDL.h"
 
 // My Classes
 #include "include/Bricks.h"
@@ -400,7 +400,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
     yPos = 0;
     inAir = true;
 
-    SDL_Event event;
+    //SDL_Event event;
 
     while (game)
     {
@@ -668,6 +668,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
 //int argv, char **args
 int main()
 {
+   
     std::cout << blocksClass.stashBlockPos[0][0] << blocksClass.stashBlockPos[0][1];
     blocksClass.blocksInit();
     std::cout << blocksClass.stashBlockPos[0][0] << blocksClass.stashBlockPos[0][1] << "\n" << blocksClass.stashBlockPos[1][0] << blocksClass.stashBlockPos[1][1] << "\n" << blocksClass.stashBlockPos[2][0] << blocksClass.stashBlockPos[2][1] << "\n" << blocksClass.stashBlockPos[3][0] << blocksClass.stashBlockPos[3][1] << "\n";
