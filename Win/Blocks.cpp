@@ -27,13 +27,14 @@ void Blocks::setStashBlock()
     int xIncrease;
     int yIncrease;
 
-    vector<int> tempStashPos;
+    vector<int> tempStashPos = {};
 
-    Blocks::stashBlockPos = {{0, 0}};
+    //Blocks::stashBlockPos = {{0, 0}};
     int curSize;
 
-    for (curSize = -1; curSize < Blocks::blockSize; curSize++)
+    for (curSize = 0; curSize < Blocks::blockSize; curSize++)
     {
+        std::cout << curSize;
         checking = true;
 
         xIncrease = rand() % 4 - 2;
@@ -68,6 +69,7 @@ void Blocks::setStashBlock()
             }
             else
             {
+                stashBlockPos[curSize] = tempStashPos;
                 checking = false;
             }
         }
