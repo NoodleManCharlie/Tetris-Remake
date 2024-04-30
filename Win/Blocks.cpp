@@ -1,6 +1,7 @@
 #include "include/Blocks.h"
 
 #include <time.h> 
+#include <iostream>
 #include <cstdlib>
 #include <vector>
 using std::vector;
@@ -10,6 +11,7 @@ void Blocks::blocksInit()
 {
     srand(static_cast<unsigned int>(time(NULL)));
     setStashBlock();
+    std::cout << "Initialized";
 }
 
 void Blocks::setCurrentBlock()
@@ -30,7 +32,7 @@ void Blocks::setStashBlock()
     Blocks::stashBlockPos = {{0, 0}};
     int curSize;
 
-    for (curSize = 0; curSize < Blocks::blockSize; curSize++)
+    for (curSize = -1; curSize < Blocks::blockSize; curSize++)
     {
         checking = true;
 
