@@ -14,7 +14,7 @@ class Blocks
         vector<vector<int>> curBlockPos;
         vector<vector<int>> curBlockSize;
 
-        vector<vector<int>> stashBlockPos = {{0, 0}};
+        vector<vector<int>> stashBlockPos;
         vector<vector<int>> stashBlockSize;
 
         void blocksInit();
