@@ -668,14 +668,15 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
 //int argv, char **args
 int main()
 {
+    string response;
+
     blocksClass.blocksInit();
+    std::cin >> response;
 
     keys.keysInit();
 
     // time_t timeForRand = time(NULL);
     srand(static_cast<unsigned int>(time(NULL) ));
-
-    string response;
 
     std::ifstream readData("Win/main/libraries/map/highscore/highscore.txt");
 
