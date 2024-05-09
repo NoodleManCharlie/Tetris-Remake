@@ -42,8 +42,17 @@ void Blocks::setStashBlock()
     {
         checking = true;
 
-        xIncrease = (rand() % 4) - 2;
-        yIncrease = (rand() % 4) - 2;
+        while(xIncrease == 0)
+        {
+            xIncrease = (rand() % 4);
+        }
+        while(yIncrease == 0)
+        {
+            yIncrease = (rand() % 4);
+        }
+
+        xIncrease -= 2;
+        yIncrease -= 2;
 
         tempStashPos = {tempStashBlockPos[curSize][0] + xIncrease, tempStashBlockPos[curSize][1] + yIncrease};
 
@@ -67,8 +76,17 @@ void Blocks::setStashBlock()
 
             if(fail)
             {
-                xIncrease = rand() % 4 - 2;
-                yIncrease = rand() % 4 - 2;
+                while(xIncrease == 0)
+                {
+                    xIncrease = (rand() % 4);
+                }
+                while(yIncrease == 0)
+                {
+                    yIncrease = (rand() % 4);
+                }
+
+                xIncrease -= 2;
+                yIncrease -= 2;
 
                 tempStashPos = {tempStashBlockPos[curSize][0] + xIncrease, tempStashBlockPos[curSize][1] + yIncrease};
             }
@@ -85,29 +103,33 @@ void Blocks::setStashBlock()
         }
     }
   
-    vector<int> xNegatives;
-    vector<int> yNegatives;
+    vector<int> xNegatives; //(blockSize)
+    vector<int> yNegatives; //(blockSize)
     int xAdjust = 0;
     int yAdjust = 0;
 
-    //xNegatives.assign(blockSize, 0);
-    //yNegatives.assign(blockSize, 0);
+    xNegatives.assign(blockSize, 0);
+    yNegatives.assign(blockSize, 0);
 
     //Finding Negative in the x and y category to be later used in the next for loop
     for(int i = 0; i < blockSize; i++)
     {
-        std::cout << tempStashBlockPos[i][0] << "\n";
-        std::cout << tempStashBlockPos[i][1] << "\n";
+        std::cout << "X Position: " << tempStashBlockPos[i][0] << "\n";
+        std::cout << "Y Position: " << tempStashBlockPos[i][1] << "\n";
         
         if(tempStashBlockPos[i][0] < 0)
         {
-            xNegatives.insert(xNegatives.end(), tempStashBlockPos[i][0]);
-            std::cout << xNegatives[i] << "\n";
+            //xNegatives.insert(xNegatives.begin(), tempStashBlockPos[i][0]);
+            //xNegatives.push_back(tempStashBlockPos[i][0]);
+            xNegatives[i] = tempStashBlockPos[i][0];
+            std::cout << "X Negatives: " << xNegatives[i] << "\n";
         }
         if(tempStashBlockPos[i][1] < 0)
         {
-            yNegatives.insert(yNegatives.end(), tempStashBlockPos[i][1]);
-            std::cout << yNegatives[i] << "\n";
+            //yNegatives.insert(yNegatives.begin(), tempStashBlockPos[i][1]);
+            //yNegatives.push_back(tempStashBlockPos[i][1]);
+            yNegatives[i] = tempStashBlockPos[i][1];
+            std::cout << "Y Negatives: " << yNegatives[i] << "\n";
         }
     }
 
