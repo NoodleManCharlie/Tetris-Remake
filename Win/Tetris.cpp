@@ -671,7 +671,7 @@ int main()
     string response;
 
     blocksClass.blocksInit();
-    std::cin >> response;
+    system("CLS");
 
     keys.keysInit();
 
