@@ -174,17 +174,40 @@ void Blocks::setStashBlock()
 
 }
 
-void Blocks::getWidth()
+int Blocks::getWidth()
 {
-    for(int brick = 0; brick < curBlockPos.size(); brick++)
+    int widthBrickOne = curBlockPos[0][0];
+    int widthBrickTwo;
+
+    for(int brick = 1; brick < curBlockPos.size(); brick++)
     {
-        //curBlockPos
+        widthBrickTwo = curBlockPos[brick][0];
+        
+        if(widthBrickOne < widthBrickTwo)
+        {
+            widthBrickOne = widthBrickTwo;
+        }
     }
+
+    return widthBrickOne;
 }
 
-void Blocks::getHeight()
+int Blocks::getHeight()
 {
-    
+    int heightBrickOne = curBlockPos[0][1];
+    int heightBrickTwo;
+
+    for(int brick = 1; brick < curBlockPos.size(); brick++)
+    {
+        heightBrickTwo = curBlockPos[brick][1];
+        
+        if(heightBrickOne < heightBrickTwo)
+        {
+            heightBrickOne = heightBrickTwo;
+        }
+    }
+
+    return heightBrickOne;
 }
 
 void Blocks::rotate()

@@ -22,8 +22,8 @@ class Blocks
         void setCurrentBlock();
         void setStashBlock();
 
-        void getWidth();
-        void getHeight();
+        int getWidth();
+        int getHeight();
 
         void rotate();
 };
