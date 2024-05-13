@@ -212,5 +212,18 @@ int Blocks::getHeight()
 
 void Blocks::rotate()
 {
-    //curBlockPos
+    int width = getWidth();
+    int height = getHeight();
+
+    int hold;
+
+    for(int i = 0; i <= blockSize; i++)
+    {
+        curBlockPos[i][0] = width - (curBlockPos[i][0] - 1);
+
+        hold = curBlockPos[i][1];
+
+        curBlockPos[i][1] = curBlockPos[i][0];
+        curBlockPos[i][0] = hold;
+    }
 }
