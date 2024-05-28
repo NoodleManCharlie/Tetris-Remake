@@ -606,4 +606,4 @@ It basically provides a set of APIs to interact with various devices like graphi
 Look into this and how it deals with graphics. Also how widley it is used
 */
 
-//Checkout https://www.youtube.com/watch?v=dc7CIkZcWYE 
+//Checkout https://www.youtube.com/watch?v=dc7CIkZcWYE - Atlas OS makes Windows Faster
