@@ -12,10 +12,10 @@ class Blocks
         int blockSize = 4; //Tetris
 
         vector<vector<int>> curBlockPos;
-        vector<vector<int>> curBlockSize;
+        //vector<vector<int>> curBlockSize;
 
         vector<vector<int>> stashBlockPos;
-        vector<vector<int>> stashBlockSize;
+        //vector<vector<int>> stashBlockSize;
 
         void blocksInit();
 
@@ -26,6 +26,9 @@ class Blocks
         int getHeight();
 
         void rotate();
+
+        vector<vector<int>> getTop();
+        vector<vector<int>> getBottom();
 };
 
 #endif

@@ -226,4 +226,35 @@ void Blocks::rotate()
         curBlockPos[i][1] = curBlockPos[i][0];
         curBlockPos[i][0] = hold;
     }
+} 
+
+vector<vector<int>> Blocks::getTop()
+{
+    vector<vector<int>> hold;
+    int height = getHeight();
+
+    for(int i = 0; i <= blockSize; i++)
+    {
+        if(curBlockPos[i][1] == height)
+        {
+            hold.push_back(curBlockPos[i]);
+        }
+    }
+
+    return hold;
+}
+
+vector<vector<int>> Blocks::getBottom()
+{
+    vector<vector<int>> hold;
+
+    for(int i = 0; i <= blockSize; i++)
+    {
+        if(curBlockPos[i][1] == 0)
+        {
+            hold.push_back(curBlockPos[i]);
+        }
+    }
+
+    return hold;
 }

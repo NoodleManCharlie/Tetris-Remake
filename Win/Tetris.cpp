@@ -213,7 +213,7 @@ void updateScore(int addition)
     }
 }
 
-void moveBlock(map<int, vector<string>> &fullBoard, string fill, int usedBrick, int yPos, vector<vector<int>> holder,
+void oldMoveBlock(map<int, vector<string>> &fullBoard, string fill, int usedBrick, int yPos, vector<vector<int>> holder,
                Brick::SquareBrick sqrBrick,
                Brick::LBrick lBrick,
                Brick::LBackwardsBrick lBackBrick,
@@ -349,6 +349,23 @@ void moveBlock(map<int, vector<string>> &fullBoard, string fill, int usedBrick, 
     }
 }
 
+void moveBlock(map<int, vector<string>> &fullBoard, string fill, int yPos)
+{
+    int i;
+    int n;
+
+    std::cout << "Moving block";
+
+    for(int b = 0; b <= blocksClass.blockSize; b++)
+    {
+        i = blocksClass.curBlockPos[b][1];
+        n = blocksClass.curBlockPos[b][0];
+        fullBoard[i + yPos][n + xAdd] = fill;
+    }
+
+    std::cout << "Moved block";
+}
+
 int xAddBefore;
 
 // Function used in fixedUpdate
@@ -371,7 +388,7 @@ void wait(DWORD interval, map<int, vector<string>> &fullBoard, int boardHeight, 
         else if (xAddBefore != xAdd)
         {
 
-            moveBlock(fullBoard, "[/]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
+            moveBlock(fullBoard, "[/]", yPos);
             printBoard(fullBoard);
 
             holder = straightBrick.getLowest(straightBrick.brick1, straightBrick.brick2, straightBrick.brick3, straightBrick.brick4);
@@ -386,7 +403,7 @@ void wait(DWORD interval, map<int, vector<string>> &fullBoard, int boardHeight, 
             }
             if (inAir)
             {
-                moveBlock(fullBoard, "[ ]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
+                moveBlock(fullBoard, "[ ]", yPos);
             }
         }
     }
@@ -410,13 +427,14 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
 
         if (!brickOnScreen)
         {
-            usedBrick = 1 + rand() % 8;
+            blocksClass.setCurrentBlock();
             brickOnScreen = true;
             yPos += 1;
             inAir = true;
             round = 0;
             xAdd = 0;
         }
+
         // DETERMINES HOW OFTEN UPDATES
         // VVVVVVVVVVVVVVVVVVVVVVVV
         int solutionTime = 350; // 1 second
@@ -434,7 +452,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
         DWORD interval = 20;
 
         DWORD start = GetTickCount(); // program starts
-
+/*
         switch (usedBrick)
         {
             case (1):
@@ -469,6 +487,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
                 brickSize = 4;
             }
         }
+        */
 
         for (timer = 0; timer < solutionTime; timer += interval)
         {
@@ -483,172 +502,10 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
             int i;
             int n;
 
-            // usedBrick = 7;
-
-            switch (usedBrick)
-            {
-                case (1):
-                {
-                    brickType = "Square";
-
-                    moveBlock(fullBoard, "[/]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
-                    printBoard(fullBoard);
-                    holder = sqrBrick.getLowest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
-                    heights = sqrBrick.getHighest(sqrBrick.brick1, sqrBrick.brick2, sqrBrick.brick3, sqrBrick.brick4);
-
-                    int position = holder[0][1];
-                    if (position + yPos == (boardHeight - (heights[0][1])))
-                    {
-                        brickOnScreen = false;
-                        yPos = 0;
-                        inAir = false;
-                    }
-                    if (inAir)
-                    {
-                        moveBlock(fullBoard, "[ ]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
-                    }
-
-                    break;
-                }
-                case (2):
-                {
-                    brickType = "L";
-
-                    moveBlock(fullBoard, "[/]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
-                    printBoard(fullBoard);
-                    holder = lBrick.getLowest(lBrick.brick1, lBrick.brick2, lBrick.brick3, lBrick.brick4);
-                    heights = lBrick.getHighest(lBrick.brick1, lBrick.brick2, lBrick.brick3, lBrick.brick4);
-
-                    int position = holder[0][1];
-                    if (position + yPos == (boardHeight - (heights[0][1])))
-                    {
-                        brickOnScreen = false;
-                        yPos = 0;
-                        inAir = false;
-                    }
-                    if (inAir)
-                    {
-                        moveBlock(fullBoard, "[ ]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
-                    }
-
-                    break;
-                }
-                case (3):
-                {
-                    brickType = "LBack";
-
-                    moveBlock(fullBoard, "[/]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
-                    printBoard(fullBoard);
-                    holder = lBackBrick.getLowest(lBackBrick.brick1, lBackBrick.brick2, lBackBrick.brick3, lBackBrick.brick4);
-                    heights = lBackBrick.getHighest(lBackBrick.brick1, lBackBrick.brick2, lBackBrick.brick3, lBackBrick.brick4);
-
-                    int position = holder[0][1];
-                    if (position + yPos == (boardHeight - (heights[0][1])))
-                    {
-                        brickOnScreen = false;
-                        yPos = 0;
-                        inAir = false;
-                    }
-                    if (inAir)
-                    {
-                        moveBlock(fullBoard, "[ ]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
-                    }
-
-                    break;
-                }
-                case (4):
-                {
-                    brickType = "T";
-
-                    moveBlock(fullBoard, "[/]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
-                    printBoard(fullBoard);
-                    holder = tBrick.getLowest(tBrick.brick1, tBrick.brick2, tBrick.brick3, tBrick.brick4);
-                    heights = tBrick.getHighest(tBrick.brick1, tBrick.brick2, tBrick.brick3, tBrick.brick4);
-
-                    int position = holder[0][1];
-                    if (position + yPos == (boardHeight - (heights[0][1])))
-                    {
-                        brickOnScreen = false;
-                        yPos = 0;
-                        inAir = false;
-                    }
-                    if (inAir)
-                    {
-                        moveBlock(fullBoard, "[ ]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
-                    }
-
-                    break;
-                }
-                case (5):
-                {
-                    brickType = "Z";
-
-                    moveBlock(fullBoard, "[/]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
-                    printBoard(fullBoard);
-                    holder = zBrick.getLowest(zBrick.brick1, zBrick.brick2, zBrick.brick3, zBrick.brick4);
-                    heights = zBrick.getHighest(zBrick.brick1, zBrick.brick2, zBrick.brick3, zBrick.brick4);
-
-                    int position = holder[0][1];
-                    if (position + yPos == (boardHeight - (heights[0][1])))
-                    {
-                        brickOnScreen = false;
-                        yPos = 0;
-                        inAir = false;
-                    }
-                    if (inAir)
-                    {
-                        moveBlock(fullBoard, "[ ]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
-                    }
-
-                    break;
-                }
-                case (6):
-                {
-                    brickType = "ZBack";
-
-                    moveBlock(fullBoard, "[/]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
-                    printBoard(fullBoard);
-                    holder = zBackBrick.getLowest(zBackBrick.brick1, zBackBrick.brick2, zBackBrick.brick3, zBackBrick.brick4);
-                    heights = zBackBrick.getHighest(zBackBrick.brick1, zBackBrick.brick2, zBackBrick.brick3, zBackBrick.brick4);
-
-                    int position = holder[0][1];
-                    if (position + yPos == (boardHeight - (heights[0][1])))
-                    {
-                        brickOnScreen = false;
-                        yPos = 0;
-                        inAir = false;
-                    }
-                    if (inAir)
-                    {
-                        moveBlock(fullBoard, "[ ]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
-                    }
-
-                    break;
-                }
-                case (7):
-                {
-                    brickType = "Straight";
-
-                    moveBlock(fullBoard, "[/]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
-                    printBoard(fullBoard);
-                    holder = straightBrick.getLowest(straightBrick.brick1, straightBrick.brick2, straightBrick.brick3, straightBrick.brick4);
-                    heights = straightBrick.getHighest(straightBrick.brick1, straightBrick.brick2, straightBrick.brick3, straightBrick.brick4);
-
-                    int position = holder[0][1];
-                    if (position + yPos == (boardHeight - (heights[0][1])))
-                    {
-                        brickOnScreen = false;
-                        yPos = 0;
-                        inAir = false;
-                    }
-                    if (inAir)
-                    {
-                        moveBlock(fullBoard, "[ ]", usedBrick, yPos, holder, sqrBrick, lBrick, lBackBrick, tBrick, zBrick, zBackBrick, straightBrick);
-                    }
-
-                    break;
-                }
-            }
+            moveBlock(fullBoard, "[/]",  yPos);
+            printBoard(fullBoard);
+            holder = blocksClass.getBottom();
+            heights = blocksClass.getTop();
 
             int position = holder[0][1];
             if (position + yPos == (boardHeight - (heights[0][1])))
@@ -657,6 +514,20 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
                 yPos = 0;
                 inAir = false;
             }
+            if (inAir)
+            {
+                moveBlock(fullBoard, "[ ]", yPos);
+            }
+
+/*
+            int position = holder[0][1];
+            if (position + yPos == (boardHeight - (heights[0][1])))
+            {
+                brickOnScreen = false;
+                yPos = 0;
+                inAir = false;
+            }
+            */
             if (yPos < (boardHeight - (heights[0][1])))
             {
                 yPos += 1;
@@ -665,6 +536,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
         }
     }
 }
+
 //int argv, char **args
 int main()
 {
@@ -717,6 +589,7 @@ int main()
 -Clean inputs, THIS IS A MUST
 -Faster Falling
 -Roatation
+-Preformance upgrades - Make use of multi threading and garbage to make creating new block a background process.
 */
 
 /*
