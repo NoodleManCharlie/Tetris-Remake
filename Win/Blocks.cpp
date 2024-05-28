@@ -233,7 +233,7 @@ vector<vector<int>> Blocks::getTop()
     vector<vector<int>> hold;
     int height = getHeight();
 
-    for(int i = 0; i <= blockSize; i++)
+    for(int i = 0; i < blockSize; i++)
     {
         if(curBlockPos[i][1] == height)
         {
@@ -248,7 +248,7 @@ vector<vector<int>> Blocks::getBottom()
 {
     vector<vector<int>> hold;
 
-    for(int i = 0; i <= blockSize; i++)
+    for(int i = 0; i < blockSize; i++)
     {
         if(curBlockPos[i][1] == 0)
         {

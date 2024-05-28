@@ -146,6 +146,8 @@ map<int, vector<string>> createBoard(vector<string> board, int boardWidth, int b
 
 void printBoard(map<int, vector<string>> fullBoard)
 {
+    std::cout << "Printing Board";
+
     system("CLS");
     int line = 0;
 
@@ -162,6 +164,8 @@ void printBoard(map<int, vector<string>> fullBoard)
         std::cout << "|";
         std::cout << std::endl;
     }
+
+    std::cout << "Board Printed";
 }
 
 // Mmmmmmaaaaayyyyybbbbeeeee llllllaaaaaattttteeeerrrr
@@ -213,157 +217,21 @@ void updateScore(int addition)
     }
 }
 
-void oldMoveBlock(map<int, vector<string>> &fullBoard, string fill, int usedBrick, int yPos, vector<vector<int>> holder,
-               Brick::SquareBrick sqrBrick,
-               Brick::LBrick lBrick,
-               Brick::LBackwardsBrick lBackBrick,
-               Brick::TBrick tBrick,
-               Brick::ZBrick zBrick,
-               Brick::ZBackwardsBrick zBackBrick,
-               Brick::StraightBrick straightBrick)
-{
-    int i;
-    int n;
-
-    switch (usedBrick)
-    {
-    case (1):
-    {
-        i = sqrBrick.brick1[1];
-        n = sqrBrick.brick1[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-        i = sqrBrick.brick2[1];
-        n = sqrBrick.brick2[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-        i = sqrBrick.brick3[1];
-        n = sqrBrick.brick3[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-        i = sqrBrick.brick4[1];
-        n = sqrBrick.brick4[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-
-        break;
-    }
-    case (2):
-    {
-        i = lBrick.brick1[1];
-        n = lBrick.brick1[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-        i = lBrick.brick2[1];
-        n = lBrick.brick2[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-        i = lBrick.brick3[1];
-        n = lBrick.brick3[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-        i = lBrick.brick4[1];
-        n = lBrick.brick4[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-
-        break;
-    }
-    case (3):
-    {
-        i = lBackBrick.brick1[1];
-        n = lBackBrick.brick1[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-        i = lBackBrick.brick2[1];
-        n = lBackBrick.brick2[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-        i = lBackBrick.brick3[1];
-        n = lBackBrick.brick3[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-        i = lBackBrick.brick4[1];
-        n = lBackBrick.brick4[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-
-        break;
-    }
-    case (4):
-    {
-        i = tBrick.brick1[1];
-        n = tBrick.brick1[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-        i = tBrick.brick2[1];
-        n = tBrick.brick2[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-        i = tBrick.brick3[1];
-        n = tBrick.brick3[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-        i = tBrick.brick4[1];
-        n = tBrick.brick4[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-
-        break;
-    }
-    case (5):
-    {
-        i = zBrick.brick1[1];
-        n = zBrick.brick1[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-        i = zBrick.brick2[1];
-        n = zBrick.brick2[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-        i = zBrick.brick3[1];
-        n = zBrick.brick3[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-        i = zBrick.brick4[1];
-        n = zBrick.brick4[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-
-        break;
-    }
-    case (6):
-    {
-        i = zBackBrick.brick1[1];
-        n = zBackBrick.brick1[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-        i = zBackBrick.brick2[1];
-        n = zBackBrick.brick2[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-        i = zBackBrick.brick3[1];
-        n = zBackBrick.brick3[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-        i = zBackBrick.brick4[1];
-        n = zBackBrick.brick4[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-
-        break;
-    }
-    case (7):
-    {
-        i = straightBrick.brick1[1];
-        n = straightBrick.brick1[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-        i = straightBrick.brick2[1];
-        n = straightBrick.brick2[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-        i = straightBrick.brick3[1];
-        n = straightBrick.brick3[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-        i = straightBrick.brick4[1];
-        n = straightBrick.brick4[0];
-        fullBoard[i + yPos][n + xAdd] = fill;
-
-        break;
-    }
-    }
-}
-
 void moveBlock(map<int, vector<string>> &fullBoard, string fill, int yPos)
 {
     int i;
     int n;
 
-    std::cout << "Moving block";
+    std::cout << "Moving Block";
 
-    for(int b = 0; b <= blocksClass.blockSize; b++)
+    for(int b = 0; b < blocksClass.blockSize; b++)
     {
-        i = blocksClass.curBlockPos[b][1];
         n = blocksClass.curBlockPos[b][0];
+        i = blocksClass.curBlockPos[b][1];
         fullBoard[i + yPos][n + xAdd] = fill;
     }
 
-    std::cout << "Moved block";
+    std::cout << "Moved Block";
 }
 
 int xAddBefore;
