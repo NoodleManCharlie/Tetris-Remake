@@ -7,16 +7,18 @@
 			"command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
 			"args": [
 				"-fdiagnostics-color=always",
+				"-m64",
 				"-g",
-				"-I ${workspaceFolder}/Win/include",
-				"-L ${workspaceFolder}/Win/lib",
+				"-I ${workspaceFolder}\\Win\\include",
+				"-L ${workspaceFolder}\\Win\\lib",
 				"-o",
-                "${workspaceFolder}/Win/Tetris.exe",
-                "${workspaceFolder}/Win/Brick.cpp",
-				"${workspaceFolder}/Win/Tetris.cpp",
-				"-lmingw32",
-				"-lSDL2main",
-				"-lSDL2"
+                "${workspaceFolder}\\Win\\Tetris.exe",
+				"${workspaceFolder}\\Win\\Blocks.cpp",
+                "${workspaceFolder}\\Win\\Brick.cpp",
+				"${workspaceFolder}\\Win\\Tetris.cpp",
+				//"-lmingw32",
+				//"-lSDL2main",
+				//"-lSDL2"
 			],
 			"options": {
 				"cwd": "C:\\msys64\\ucrt64\\bin"
@@ -26,6 +28,33 @@
 			],
 			"group": "build",
 			"detail": "compiler: C:\\msys64\\ucrt64\\bin\\g++.exe"
+		},
+		{
+			"label": "buildNewEmpire",
+			"type": "shell",
+			"command": "C:\\MinGW\\bin\\g++.exe",
+			"args": [
+				"-fdiagnostics-color=always",
+				"-g",
+				"-I ${workspaceFolder}\\Win\\include",
+				"-L ${workspaceFolder}\\Win\\lib",
+				"-o",
+                "${workspaceFolder}\\Win\\Tetris.exe",
+				"${workspaceFolder}\\Win\\Blocks.cpp",
+                "${workspaceFolder}\\Win\\Brick.cpp",
+				"${workspaceFolder}\\Win\\Tetris.cpp",
+				//"-lmingw32",
+				//"-lSDL2main",
+				//"-lSDL2"
+			],
+			"options": { 
+				"cwd": "C:\\MinGW\\bin"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build",
+			"detail": "compiler: C:\\MinGW\\bin\\g++.exe"
 		},
 		{
 			"label": "build",

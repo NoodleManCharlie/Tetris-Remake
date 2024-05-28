@@ -1,24 +1,25 @@
 // Built in Libraries
+#include <Windows.h>
 #include <iostream>
 #include <vector>
 #include <map>
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h>
 #include <fstream>
-#include <sysinfoapi.h>
+//#include <sysinfoapi.h>
 #include <sstream>
 #include <cstdlib>
 #include <time.h>
-#include <algorithm>
-#include <Windows.h>
+#include <algorithm> 
+#include <direct.h>
 
 // Imported Libraries
-#include "include/SDL2/SDL.h"
+//#include "include/SDL2/SDL.h"
 
 // My Classes
 #include "include/Bricks.h"
+#include "include/Blocks.h"
 #include "include/keyboard.h"
 
 using std::map;
@@ -29,6 +30,8 @@ int score = 0;
 int highScore = 0;
 
 bool game = true;
+
+Blocks blocksClass;
 
 Brick::SquareBrick sqrBrick;
 Brick::LBrick lBrick;
@@ -165,11 +168,19 @@ void printBoard(map<int, vector<string>> fullBoard)
 int folderStructure()
 {
     // Path to the directories
+    
     vector<const char *> directories = {"./main/libraries/map/highscore",
                                         "./main/libraries/iostream",
                                         "./main/libraries/vector",
                                         "./main/penguin",
                                         "./main/reset/donotenter/seriously/okbethatway/hahagetpranked"};
+    
+
+    //vector<LPCWSTR> directoriies = {"./main/libraries/map/highscore",
+    //                                    "./main/libraries/iostream",
+    //                                    "./main/libraries/vector",
+    //                                    "./main/penguin",
+    //                                    "./main/reset/donotenter/seriously/okbethatway/hahagetpranked"};
     // const char* dir = "./main/libraries";
     //  Structure which would store the metadata
 
@@ -389,7 +400,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
     yPos = 0;
     inAir = true;
 
-    SDL_Event event;
+    //SDL_Event event;
 
     while (game)
     {
@@ -654,15 +665,18 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
         }
     }
 }
-
-int main(int argv, char **args)
+//int argv, char **args
+int main()
 {
+    string response;
+
+    blocksClass.blocksInit();
+    system("CLS");
+
     keys.keysInit();
 
     // time_t timeForRand = time(NULL);
-    srand(static_cast<unsigned int>(time(NULL)));
-
-    string response;
+    srand(static_cast<unsigned int>(time(NULL) ));
 
     std::ifstream readData("Win/main/libraries/map/highscore/highscore.txt");
 
@@ -679,6 +693,7 @@ int main(int argv, char **args)
 
     readData.close();
 
+    system("CLS");
     std::cout << "Welcome to Tetris \nWhen your Ready, type \"Y\" and enter: ";
 
     std::cin >> response;
@@ -717,3 +732,5 @@ It basically provides a set of APIs to interact with various devices like graphi
 
 Look into this and how it deals with graphics. Also how widley it is used
 */
+
+//Checkout https://www.youtube.com/watch?v=dc7CIkZcWYE 
