@@ -70,10 +70,11 @@ int keyboard::checkKeys()
     }
 
     //Check is r
-    if (GetAsyncKeyState(0x52) && releasedS == true)
+    if (GetAsyncKeyState(0x52) && releasedR == true)
     {
         //std::cout << "r pressed once";
         releasedR = false;
+        return 2;
     }
     if (!(GetAsyncKeyState(0x52)))
     {
