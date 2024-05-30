@@ -261,9 +261,9 @@ void wait(DWORD interval, map<int, vector<string>> &fullBoard, int boardHeight, 
         {
             xAdd = -1;
         }
-        else if (xAdd == (boardWidth - (blocksClass.getWidth()) - 1)) //Board width 10 - Block Width - 1
+        else if (xAdd == (boardWidth - (blocksClass.getWidth()))) //Board width 10 - Block Width - 1
         {
-            xAdd = boardWidth - blocksClass.getWidth();
+            xAdd = boardWidth - blocksClass.getWidth() - 1;
         }
         else if (xAddBefore != xAdd)
         {
