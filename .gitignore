@@ -1,1 +1,3 @@
 .vscode
+*.exe
+Win/Tetris.exe
