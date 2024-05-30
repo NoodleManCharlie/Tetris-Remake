@@ -253,7 +253,7 @@ void Blocks::rotate()
 
     int hold;
 
-    for(int i = 0; i <= blockSize; i++)
+    for(int i = 0; i < blockSize; i++)
     {
         curBlockPos[i][0] = width - (curBlockPos[i][0] - 1);
 
