@@ -51,7 +51,7 @@ void Blocks::setStashBlock()
             h = rand() % 3;
         }
 
-        if(h)
+        if(h == 1)
         {
             //xIncrease
             xIncrease = (rand() % 4);
@@ -104,7 +104,7 @@ void Blocks::setStashBlock()
                     h = rand() % 3;
                 }
 
-                if(h)
+                if(h == 1)
                 {
                     //xIncrease
                     xIncrease = (rand() % 4);

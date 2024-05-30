@@ -362,15 +362,6 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
             {
                 moveBlock(fullBoard, "[ ]", yPos);
             }
-
-            
-            //int position = holder[0][1];
-            //if (position + yPos == (boardHeight - (heights[0][1])))
-            //{
-            //    brickOnScreen = false;
-            //    yPos = 0;
-            //    inAir = false;
-            //}
             
             if (yPos < (boardHeight - (heights[0][1])))
             {
