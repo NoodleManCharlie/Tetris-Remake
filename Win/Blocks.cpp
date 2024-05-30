@@ -6,7 +6,12 @@
 #include <cmath>
 #include <vector>
 #include <sstream>
+#include <string>
+#include <map>
+
 using std::vector;
+using std::string;
+using std::map;
 
 
 void Blocks::blocksInit()
@@ -41,21 +46,39 @@ void Blocks::setStashBlock()
     for (curSize = 0; curSize < blockSize; curSize++)
     {
         checking = true;
+        xIncrease = 0;
+        yIncrease = 0;
+        int h = rand() % 3;
 
-        xIncrease = (rand() % 4);
-        yIncrease = (rand() % 4);
-
-        while(xIncrease == 0)
+        while(h == 0)
         {
+            h = rand() % 3;
+        }
+
+        if(h == 1)
+        {
+            //xIncrease
             xIncrease = (rand() % 4);
-        }
-        while(yIncrease == 0)
-        {
-            yIncrease = (rand() % 4);
-        }
+            
+            while(xIncrease == 0 || xIncrease == 2)
+            {
+                xIncrease = (rand() % 4);
+            }
 
-        xIncrease -= 2;
-        yIncrease -= 2;
+            xIncrease -= 2;
+        }
+        else
+        {
+            //yIncrease
+            yIncrease = (rand() % 4);
+
+            while(yIncrease == 0 || yIncrease == 2)
+            {
+                yIncrease = (rand() % 4);
+            }
+
+            yIncrease -= 2;
+        }
 
         tempStashPos = {tempStashBlockPos[curSize][0] + xIncrease, tempStashBlockPos[curSize][1] + yIncrease};
 
@@ -78,20 +101,37 @@ void Blocks::setStashBlock()
 
             if(fail)
             {
-                xIncrease = (rand() % 4);
-                yIncrease = (rand() % 4);
+                h = rand() % 3;
 
-                while(xIncrease == 0)
+                while(h == 0)
                 {
+                    h = rand() % 3;
+                }
+
+                if(h == 1)
+                {
+                    //xIncrease
                     xIncrease = (rand() % 4);
-                }
-                while(yIncrease == 0)
-                {
-                    yIncrease = (rand() % 4);
-                }
+                    
+                    while(xIncrease == 0 || xIncrease == 2)
+                    {
+                        xIncrease = (rand() % 4);
+                    }
 
-                xIncrease -= 2;
-                yIncrease -= 2;
+                    xIncrease -= 2;
+                }
+                else
+                {
+                    //yIncrease
+                    yIncrease = (rand() % 4);
+
+                    while(yIncrease == 0 || yIncrease == 2)
+                    {
+                        yIncrease = (rand() % 4);
+                    }
+
+                    yIncrease -= 2;
+                }
 
                 tempStashPos = {tempStashBlockPos[curSize][0] + xIncrease, tempStashBlockPos[curSize][1] + yIncrease};
             }
@@ -189,6 +229,7 @@ int Blocks::getWidth()
         }
     }
 
+    //std::cout << "Width: " << widthBrickOne;
     return widthBrickOne;
 }
 
@@ -217,13 +258,60 @@ void Blocks::rotate()
 
     int hold;
 
-    for(int i = 0; i <= blockSize; i++)
+    if(!(xAdd == (boardWidth - width - (height - 2))))
     {
-        curBlockPos[i][0] = width - (curBlockPos[i][0] - 1);
+        for(int i = 0; i < blockSize; i++)
+        {
+            curBlockPos[i][0] = width - (curBlockPos[i][0] - 1);
 
-        hold = curBlockPos[i][1];
+            hold = curBlockPos[i][1];
 
-        curBlockPos[i][1] = curBlockPos[i][0];
-        curBlockPos[i][0] = hold;
+            curBlockPos[i][1] = curBlockPos[i][0];
+            curBlockPos[i][0] = hold;
+        }
+    }
+} 
+
+vector<vector<int>> Blocks::getTop()
+{
+    vector<vector<int>> hold;
+    int height = getHeight();
+
+    for(int i = 0; i < blockSize; i++)
+    {
+        if(curBlockPos[i][1] == height)
+        {
+            hold.push_back(curBlockPos[i]);
+        }
+    }
+
+    return hold;
+}
+
+vector<vector<int>> Blocks::getBottom()
+{
+    vector<vector<int>> hold;
+
+    for(int i = 0; i < blockSize; i++)
+    {
+        if(curBlockPos[i][1] == 1)
+        {
+            hold.push_back(curBlockPos[i]);
+        }
+    }
+
+    return hold;
+}
+
+void Blocks::moveBlock(map<int, vector<string>> &fullBoard, string fill, int yPos)
+{
+    int i;
+    int n;
+
+    for(int b = 0; b < blockSize; b++)
+    {
+        n = curBlockPos[b][0];
+        i = curBlockPos[b][1];
+        fullBoard[i + yPos][n + xAdd] = fill;
     }
 }

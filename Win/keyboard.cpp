@@ -14,6 +14,7 @@ void keyboard::keysInit()
     bool releasedA = true;
     bool releasedS = true;
     bool releasedD = true;
+    bool releasedR = true;
 }
 
 int keyboard::checkKeys()
@@ -66,6 +67,19 @@ int keyboard::checkKeys()
     {
         //std::cout << "s released";
         releasedS = true;
+    }
+
+    //Check is r
+    if (GetAsyncKeyState(0x52) && releasedR == true)
+    {
+        //std::cout << "r pressed once";
+        releasedR = false;
+        return 2;
+    }
+    if (!(GetAsyncKeyState(0x52)))
+    {
+        //std::cout << "r released";
+        releasedR = true;
     }
 
     return 0;
