@@ -249,6 +249,9 @@ void wait(DWORD interval, map<int, vector<string>> &fullBoard, int boardHeight, 
         if(returned == 2)
         {
             blocksClass.rotate();
+            moveBlock(fullBoard, "[/]", yPos);
+            printBoard(fullBoard);
+            moveBlock(fullBoard, "[ ]", yPos);
         }
         else
         {
@@ -258,13 +261,12 @@ void wait(DWORD interval, map<int, vector<string>> &fullBoard, int boardHeight, 
         {
             xAdd = 0;
         }
-        else if (xAdd == (boardWidth - (brickSize-1)))
+        else if (xAdd == (boardWidth - (blocksClass.getWidth()) - 1)) //Board width 10 - Block Width - 1
         {
-            xAdd = boardWidth - brickSize;
+            xAdd = boardWidth - blocksClass.getWidth();
         }
         else if (xAddBefore != xAdd)
         {
-
             moveBlock(fullBoard, "[/]", yPos);
             printBoard(fullBoard);
 

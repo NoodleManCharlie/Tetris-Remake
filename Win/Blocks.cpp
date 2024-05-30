@@ -225,6 +225,7 @@ int Blocks::getWidth()
         }
     }
 
+    //std::cout << "Width: " << widthBrickOne;
     return widthBrickOne;
 }
 
