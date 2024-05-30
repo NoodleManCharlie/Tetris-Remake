@@ -7,7 +7,11 @@
 #include <vector>
 #include <sstream>
 #include <string>
+#include <map>
+
 using std::vector;
+using std::string;
+using std::map;
 
 
 void Blocks::blocksInit()
@@ -254,14 +258,17 @@ void Blocks::rotate()
 
     int hold;
 
-    for(int i = 0; i < blockSize; i++)
+    if(!(xAdd == (boardWidth - width - (height - 2))))
     {
-        curBlockPos[i][0] = width - (curBlockPos[i][0] - 1);
+        for(int i = 0; i < blockSize; i++)
+        {
+            curBlockPos[i][0] = width - (curBlockPos[i][0] - 1);
 
-        hold = curBlockPos[i][1];
+            hold = curBlockPos[i][1];
 
-        curBlockPos[i][1] = curBlockPos[i][0];
-        curBlockPos[i][0] = hold;
+            curBlockPos[i][1] = curBlockPos[i][0];
+            curBlockPos[i][0] = hold;
+        }
     }
 } 
 
@@ -294,4 +301,17 @@ vector<vector<int>> Blocks::getBottom()
     }
 
     return hold;
+}
+
+void Blocks::moveBlock(map<int, vector<string>> &fullBoard, string fill, int yPos)
+{
+    int i;
+    int n;
+
+    for(int b = 0; b < blockSize; b++)
+    {
+        n = curBlockPos[b][0];
+        i = curBlockPos[b][1];
+        fullBoard[i + yPos][n + xAdd] = fill;
+    }
 }

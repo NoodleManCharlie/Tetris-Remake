@@ -50,7 +50,6 @@ int usedBrick;
 int brickSize;
 
 keyboard keys;
-int xAdd;
 
 // Used to make set all strings to the same length including spaces
 string setStringLength(string theString, int length, bool gameElsewise)
@@ -221,19 +220,6 @@ void updateScore(int addition)
     }
 }
 
-void moveBlock(map<int, vector<string>> &fullBoard, string fill, int yPos)
-{
-    int i;
-    int n;
-
-    for(int b = 0; b < blocksClass.blockSize; b++)
-    {
-        n = blocksClass.curBlockPos[b][0];
-        i = blocksClass.curBlockPos[b][1];
-        fullBoard[i + yPos][n + xAdd] = fill;
-    }
-}
-
 int xAddBefore;
 
 // Function used in fixedUpdate
@@ -245,29 +231,29 @@ void wait(DWORD interval, map<int, vector<string>> &fullBoard, int boardHeight, 
     {
         int returned = keys.checkKeys();
 
-        xAddBefore = xAdd;
+        xAddBefore = blocksClass.xAdd;
         if(returned == 2)
         {
             blocksClass.rotate();
-            moveBlock(fullBoard, "[/]", yPos);
+            blocksClass.moveBlock(fullBoard, "[/]", yPos);
             printBoard(fullBoard);
-            moveBlock(fullBoard, "[ ]", yPos);
+            blocksClass.moveBlock(fullBoard, "[ ]", yPos);
         }
         else
         {
-            xAdd += returned;
+            blocksClass.xAdd += returned;
         }
-        if (xAdd == -2)
+        if (blocksClass.xAdd == -2)
         {
-            xAdd = -1;
+            blocksClass.xAdd = -1;
         }
-        else if (xAdd == (boardWidth - (blocksClass.getWidth()))) //Board width 10 - Block Width - 1
+        else if (blocksClass.xAdd == (boardWidth - (blocksClass.getWidth()))) //Board width 10 - Block Width - 1
         {
-            xAdd = boardWidth - blocksClass.getWidth() - 1;
+            blocksClass.xAdd = boardWidth - blocksClass.getWidth() - 1;
         }
-        else if (xAddBefore != xAdd)
+        else if (xAddBefore != blocksClass.xAdd)
         {
-            moveBlock(fullBoard, "[/]", yPos);
+            blocksClass.moveBlock(fullBoard, "[/]", yPos);
             printBoard(fullBoard);
 
             holder = straightBrick.getLowest(straightBrick.brick1, straightBrick.brick2, straightBrick.brick3, straightBrick.brick4);
@@ -282,7 +268,7 @@ void wait(DWORD interval, map<int, vector<string>> &fullBoard, int boardHeight, 
             }
             if (inAir)
             {
-                moveBlock(fullBoard, "[ ]", yPos);
+                blocksClass.moveBlock(fullBoard, "[ ]", yPos);
             }
         }
     }
@@ -310,7 +296,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
             yPos += 1;
             inAir = true;
             round = 0;
-            xAdd = 0;
+            blocksClass.xAdd = 0;
         }
         
         // DETERMINES HOW OFTEN UPDATES
@@ -346,7 +332,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
             int i;
             int n;
 
-            moveBlock(fullBoard, "[/]",  yPos);
+            blocksClass.moveBlock(fullBoard, "[/]",  yPos);
             printBoard(fullBoard);
             holder = blocksClass.getBottom();
             heights = blocksClass.getTop();
@@ -362,7 +348,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
             
             if (inAir)
             {
-                moveBlock(fullBoard, "[ ]", yPos);
+                blocksClass.moveBlock(fullBoard, "[ ]", yPos);
             }
             
             if (yPos < (boardHeight - (heights[0][1])))
@@ -410,13 +396,10 @@ int main()
     std::cin >> response;
     system("CLS");
 
-    int boardWidth = 10;
-    int boardHeight = 20;
-
     vector<string> board;
     map<int, vector<string>> fullBoard;
-    fullBoard = createBoard(board, boardWidth, boardHeight, fullBoard);
-    fixedUpdate(fullBoard, boardHeight, boardWidth);
+    fullBoard = createBoard(board, blocksClass.boardWidth, blocksClass.boardHeight, fullBoard);
+    fixedUpdate(fullBoard, blocksClass.boardHeight, blocksClass.boardWidth);
 
     std::cin >> response;
     return 0;

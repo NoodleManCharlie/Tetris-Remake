@@ -4,12 +4,24 @@
 #include <time.h> 
 #include <cstdlib>
 #include <vector>
+#include <string>
+#include <map>
+
 using std::vector;
+using std::map;
+using std::string;
+
+
 
 class Blocks
 {
     public:
         int blockSize = 4; //Tetris
+        
+        int boardWidth = 10;
+        int boardHeight = 20;
+
+        int xAdd;
 
         vector<vector<int>> curBlockPos;
         //vector<vector<int>> curBlockSize;
@@ -29,6 +41,8 @@ class Blocks
 
         vector<vector<int>> getTop();
         vector<vector<int>> getBottom();
+
+        void moveBlock(map<int, vector<string>> &fullBoard, string fill, int yPos);
 };
 
 #endif
