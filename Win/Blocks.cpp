@@ -6,6 +6,7 @@
 #include <cmath>
 #include <vector>
 #include <sstream>
+#include <string>
 using std::vector;
 
 
@@ -41,21 +42,39 @@ void Blocks::setStashBlock()
     for (curSize = 0; curSize < blockSize; curSize++)
     {
         checking = true;
+        xIncrease = 0;
+        yIncrease = 0;
+        int h = rand() % 3;
 
-        xIncrease = (rand() % 4);
-        yIncrease = (rand() % 4);
-
-        while(xIncrease == 0)
+        while(h == 0)
         {
+            h = rand() % 3;
+        }
+
+        if(h)
+        {
+            //xIncrease
             xIncrease = (rand() % 4);
-        }
-        while(yIncrease == 0)
-        {
-            yIncrease = (rand() % 4);
-        }
+            
+            while(xIncrease == 0 || xIncrease == 2)
+            {
+                xIncrease = (rand() % 4);
+            }
 
-        xIncrease -= 2;
-        yIncrease -= 2;
+            xIncrease -= 2;
+        }
+        else
+        {
+            //yIncrease
+            yIncrease = (rand() % 4);
+
+            while(yIncrease == 0 || yIncrease == 2)
+            {
+                yIncrease = (rand() % 4);
+            }
+
+            yIncrease -= 2;
+        }
 
         tempStashPos = {tempStashBlockPos[curSize][0] + xIncrease, tempStashBlockPos[curSize][1] + yIncrease};
 
@@ -78,20 +97,37 @@ void Blocks::setStashBlock()
 
             if(fail)
             {
-                xIncrease = (rand() % 4);
-                yIncrease = (rand() % 4);
+                h = rand() % 3;
 
-                while(xIncrease == 0)
+                while(h == 0)
                 {
+                    h = rand() % 3;
+                }
+
+                if(h)
+                {
+                    //xIncrease
                     xIncrease = (rand() % 4);
-                }
-                while(yIncrease == 0)
-                {
-                    yIncrease = (rand() % 4);
-                }
+                    
+                    while(xIncrease == 0 || xIncrease == 2)
+                    {
+                        xIncrease = (rand() % 4);
+                    }
 
-                xIncrease -= 2;
-                yIncrease -= 2;
+                    xIncrease -= 2;
+                }
+                else
+                {
+                    //yIncrease
+                    yIncrease = (rand() % 4);
+
+                    while(yIncrease == 0 || yIncrease == 2)
+                    {
+                        yIncrease = (rand() % 4);
+                    }
+
+                    yIncrease -= 2;
+                }
 
                 tempStashPos = {tempStashBlockPos[curSize][0] + xIncrease, tempStashBlockPos[curSize][1] + yIncrease};
             }
@@ -250,7 +286,7 @@ vector<vector<int>> Blocks::getBottom()
 
     for(int i = 0; i < blockSize; i++)
     {
-        if(curBlockPos[i][1] == 0)
+        if(curBlockPos[i][1] == 1)
         {
             hold.push_back(curBlockPos[i]);
         }

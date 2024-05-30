@@ -151,6 +151,11 @@ void printBoard(map<int, vector<string>> fullBoard)
     system("CLS");
     int line = 0;
 
+        std::cout << blocksClass.curBlockPos[0][0] << " " << blocksClass.curBlockPos[0][1] << "\n";
+        std::cout << blocksClass.curBlockPos[1][0] << " " << blocksClass.curBlockPos[1][1] << "\n";
+        std::cout << blocksClass.curBlockPos[2][0] << " " << blocksClass.curBlockPos[2][1] << "\n";
+        std::cout << blocksClass.curBlockPos[3][0] << " " << blocksClass.curBlockPos[3][1] << "\n";
+
     std::cout << "/////////|------------Tetris------------|\n";
     for (map<int, vector<string>>::iterator ii = fullBoard.begin(); ii != fullBoard.end(); ++ii)
     {
@@ -165,7 +170,6 @@ void printBoard(map<int, vector<string>> fullBoard)
         std::cout << std::endl;
     }
 
-    std::cout << "Board Printed";
 }
 
 // Mmmmmmaaaaayyyyybbbbeeeee llllllaaaaaattttteeeerrrr
@@ -222,16 +226,12 @@ void moveBlock(map<int, vector<string>> &fullBoard, string fill, int yPos)
     int i;
     int n;
 
-    std::cout << "Moving Block";
-
     for(int b = 0; b < blocksClass.blockSize; b++)
     {
         n = blocksClass.curBlockPos[b][0];
         i = blocksClass.curBlockPos[b][1];
         fullBoard[i + yPos][n + xAdd] = fill;
     }
-
-    std::cout << "Moved Block";
 }
 
 int xAddBefore;
@@ -243,8 +243,17 @@ void wait(DWORD interval, map<int, vector<string>> &fullBoard, int boardHeight, 
 
     while (GetTickCount() < (startTime + interval))
     {
+        int returned = keys.checkKeys();
+
         xAddBefore = xAdd;
-        xAdd += keys.checkKeys();
+        if(returned == 2)
+        {
+            blocksClass.rotate();
+        }
+        else
+        {
+            xAdd += returned;
+        }
         if (xAdd == -1)
         {
             xAdd = 0;
@@ -289,7 +298,6 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
 
     while (game)
     {
-
         int round = -1;
         round += 1;
 
@@ -302,7 +310,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
             round = 0;
             xAdd = 0;
         }
-
+        
         // DETERMINES HOW OFTEN UPDATES
         // VVVVVVVVVVVVVVVVVVVVVVVV
         int solutionTime = 350; // 1 second
@@ -320,42 +328,6 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
         DWORD interval = 20;
 
         DWORD start = GetTickCount(); // program starts
-/*
-        switch (usedBrick)
-        {
-            case (1):
-            {
-                brickSize = 2;
-                break;
-            }
-            case (2):
-            {
-                brickSize = 2;
-            }
-            case (3):
-            {
-                brickSize = 2;
-                break;
-            }
-            case (4):
-            {
-                brickSize = 5;
-            }
-            case (5):
-            {
-                brickSize = 3;
-            }
-            case (6):
-            {
-                brickSize = 2;
-                break;
-            }
-            case (7):
-            {
-                brickSize = 4;
-            }
-        }
-        */
 
         for (timer = 0; timer < solutionTime; timer += interval)
         {
@@ -364,6 +336,8 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
 
             counter++;
         }
+
+        
 
         if (brickOnScreen && round <= 1)
         {
@@ -376,32 +350,36 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
             heights = blocksClass.getTop();
 
             int position = holder[0][1];
+            
             if (position + yPos == (boardHeight - (heights[0][1])))
             {
                 brickOnScreen = false;
                 yPos = 0;
                 inAir = false;
-            }
+            } 
+            
             if (inAir)
             {
                 moveBlock(fullBoard, "[ ]", yPos);
             }
 
-/*
-            int position = holder[0][1];
-            if (position + yPos == (boardHeight - (heights[0][1])))
-            {
-                brickOnScreen = false;
-                yPos = 0;
-                inAir = false;
-            }
-            */
+            
+            //int position = holder[0][1];
+            //if (position + yPos == (boardHeight - (heights[0][1])))
+            //{
+            //    brickOnScreen = false;
+            //    yPos = 0;
+            //    inAir = false;
+            //}
+            
             if (yPos < (boardHeight - (heights[0][1])))
             {
                 yPos += 1;
                 inAir = true;
             }
+            
         }
+        
     }
 }
 
@@ -453,9 +431,8 @@ int main()
 
 /* TO ADD
 -Frame Buffers (Maybe it will help the smoothness of the program? As in not the fill in of the current)
+-Or some way to only update the changed pixels
 -Music? Be a good way to learn how to do audio
--Clean inputs, THIS IS A MUST
--Faster Falling
 -Roatation
 -Preformance upgrades - Make use of multi threading and garbage to make creating new block a background process.
 */
