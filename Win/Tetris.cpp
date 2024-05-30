@@ -18,7 +18,6 @@
 //#include "include/SDL2/SDL.h"
 
 // My Classes
-#include "include/Bricks.h"
 #include "include/Blocks.h"
 #include "include/keyboard.h"
 
@@ -33,21 +32,11 @@ bool game = true;
 
 Blocks blocksClass;
 
-Brick::SquareBrick sqrBrick;
-Brick::LBrick lBrick;
-Brick::LBackwardsBrick lBackBrick;
-Brick::TBrick tBrick;
-Brick::ZBrick zBrick;
-Brick::ZBackwardsBrick zBackBrick;
-Brick::StraightBrick straightBrick;
-
 bool brickOnScreen = false;
 int yPos = 0;
 bool inAir = true;
 vector<vector<int>> holder;
 vector<vector<int>> heights;
-int usedBrick;
-int brickSize;
 
 keyboard keys;
 
@@ -256,8 +245,8 @@ void wait(DWORD interval, map<int, vector<string>> &fullBoard, int boardHeight, 
             blocksClass.moveBlock(fullBoard, "[/]", yPos);
             printBoard(fullBoard);
 
-            holder = straightBrick.getLowest(straightBrick.brick1, straightBrick.brick2, straightBrick.brick3, straightBrick.brick4);
-            heights = straightBrick.getHighest(straightBrick.brick1, straightBrick.brick2, straightBrick.brick3, straightBrick.brick4);
+            holder = blocksClass.getBottom();
+            heights = blocksClass.getTop();
 
             int position = holder[0][1];
             if (position + yPos == (boardHeight - (heights[0][1])))
@@ -273,8 +262,6 @@ void wait(DWORD interval, map<int, vector<string>> &fullBoard, int boardHeight, 
         }
     }
 }
-
-string brickType;
 
 void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardWidth)
 {
