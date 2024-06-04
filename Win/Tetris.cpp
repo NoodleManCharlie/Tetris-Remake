@@ -32,12 +32,6 @@ bool game = true;
 
 Blocks blocksClass;
 
-bool brickOnScreen = false;
-int yPos = 0;
-bool inAir = true;
-vector<vector<int>> holder;
-vector<vector<int>> heights;
-
 keyboard keys;
 
 // Used to make set all strings to the same length including spaces
@@ -72,51 +66,51 @@ void printInfo(int line)
 
     switch (line)
     {
-    case (0):
-    {
-        offset = "HighScore";
-        offset = setStringLength(offset, 9, false);
-        std::cout << offset + "|";
-        break;
-    }
-    case (1):
-    {
-        offset = std::to_string(highScore);
-        offset = setStringLength(offset, 9, false);
-        std::cout << offset + "|";
-        break;
-    }
-    case (2):
-    {
-        std::cout << "/////////|";
-        break;
-    }
-    case (3):
-    {
-        offset = "  Score  ";
-        offset = setStringLength(offset, 9, false);
-        std::cout << offset + "|";
-        break;
-    }
-    case (4):
-    {
-        offset = std::to_string(score);
-        offset = setStringLength(offset, 9, false);
-        std::cout << offset + "|";
-        break;
-    }
-    case (5):
-    {
-        std::cout << "/////////|";
-        break;
-    }
-    default:
-    {
-        offset = "";
-        offset = setStringLength(offset, 9, false);
-        std::cout << offset + "|";
-        break;
-    }
+        case (0):
+        {
+            offset = "HighScore";
+            offset = setStringLength(offset, 9, false);
+            std::cout << offset + "|";
+            break;
+        }
+        case (1):
+        {
+            offset = std::to_string(highScore);
+            offset = setStringLength(offset, 9, false);
+            std::cout << offset + "|";
+            break;
+        }
+        case (2):
+        {
+            std::cout << "/////////|";
+            break;
+        }
+        case (3):
+        {
+            offset = "  Score  ";
+            offset = setStringLength(offset, 9, false);
+            std::cout << offset + "|";
+            break;
+        }
+        case (4):
+        {
+            offset = std::to_string(score);
+            offset = setStringLength(offset, 9, false);
+            std::cout << offset + "|";
+            break;
+        }
+        case (5):
+        {
+            std::cout << "/////////|";
+            break;
+        }
+        default:
+        {
+            offset = "";
+            offset = setStringLength(offset, 9, false);
+            std::cout << offset + "|";
+            break;
+        }
     }
 }
 
@@ -134,15 +128,10 @@ map<int, vector<string>> createBoard(vector<string> board, int boardWidth, int b
 
 void printBoard(map<int, vector<string>> fullBoard)
 {
-    std::cout << "Printing Board";
+    //std::cout << "Printing Board";
 
     system("CLS");
     int line = 0;
-
-        std::cout << blocksClass.curBlockPos[0][0] << " " << blocksClass.curBlockPos[0][1] << "\n";
-        std::cout << blocksClass.curBlockPos[1][0] << " " << blocksClass.curBlockPos[1][1] << "\n";
-        std::cout << blocksClass.curBlockPos[2][0] << " " << blocksClass.curBlockPos[2][1] << "\n";
-        std::cout << blocksClass.curBlockPos[3][0] << " " << blocksClass.curBlockPos[3][1] << "\n";
 
     std::cout << "/////////|------------Tetris------------|\n";
     for (map<int, vector<string>>::iterator ii = fullBoard.begin(); ii != fullBoard.end(); ++ii)
@@ -154,9 +143,15 @@ void printBoard(map<int, vector<string>> fullBoard)
         {
             std::cout << inVect[j];
         }
-        std::cout << "|";
-        std::cout << std::endl;
+        std::cout << "|" << std::endl;
     }
+
+}
+
+void updateBoard(map<int, vector<string>> fullBoard)
+{
+    //std::cout << "Updating Board";
+    
 
 }
 
@@ -224,9 +219,9 @@ void wait(DWORD interval, map<int, vector<string>> &fullBoard, int boardHeight, 
         if(returned == 2)
         {
             blocksClass.rotate();
-            blocksClass.moveBlock(fullBoard, "[/]", yPos);
-            printBoard(fullBoard);
-            blocksClass.moveBlock(fullBoard, "[ ]", yPos);
+            blocksClass.moveBlock(fullBoard, "[/]", "[ ]", blocksClass.yPos);
+            //printBoard(fullBoard);
+            //blocksClass.moveBlock(fullBoard, "[ ]", yPos);
         }
         else
         {
@@ -242,22 +237,22 @@ void wait(DWORD interval, map<int, vector<string>> &fullBoard, int boardHeight, 
         }
         else if (xAddBefore != blocksClass.xAdd)
         {
-            blocksClass.moveBlock(fullBoard, "[/]", yPos);
-            printBoard(fullBoard);
+            blocksClass.moveBlock(fullBoard, "[/]", "[ ]", blocksClass.yPos);
+            //printBoard(fullBoard);
 
-            holder = blocksClass.getBottom();
-            heights = blocksClass.getTop();
+            blocksClass.holder = blocksClass.getBottom();
+            blocksClass.heights = blocksClass.getTop();
 
-            int position = holder[0][1];
-            if (position + yPos == (boardHeight - (heights[0][1])))
+            int position = blocksClass.holder[0][1];
+            if (position + blocksClass.yPos == (boardHeight - (blocksClass.heights[0][1])))
             {
-                brickOnScreen = false;
-                yPos = 0;
-                inAir = false;
+                blocksClass.brickOnScreen = false;
+                blocksClass.yPos = 0;
+                blocksClass.inAir = false;
             }
-            if (inAir)
+            if (blocksClass.inAir)
             {
-                blocksClass.moveBlock(fullBoard, "[ ]", yPos);
+                //blocksClass.moveBlock(fullBoard, "[ ]", yPos);
             }
         }
     }
@@ -265,9 +260,9 @@ void wait(DWORD interval, map<int, vector<string>> &fullBoard, int boardHeight, 
 
 void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardWidth)
 {
-    brickOnScreen = false;
-    yPos = 0;
-    inAir = true;
+    blocksClass.brickOnScreen = false;
+    blocksClass.yPos = 0;
+    blocksClass.inAir = true;
 
     //SDL_Event event;
 
@@ -276,12 +271,12 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
         int round = -1;
         round += 1;
 
-        if (!brickOnScreen)
+        if (!blocksClass.brickOnScreen)
         {
             blocksClass.setCurrentBlock();
-            brickOnScreen = true;
-            yPos += 1;
-            inAir = true;
+            blocksClass.brickOnScreen = true;
+            blocksClass.yPos += 1;
+            blocksClass.inAir = true;
             round = 0;
             blocksClass.xAdd = 0;
         }
@@ -314,34 +309,34 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
 
         
 
-        if (brickOnScreen && round <= 1)
+        if (blocksClass.brickOnScreen && round <= 1)
         {
             int i;
             int n;
 
-            blocksClass.moveBlock(fullBoard, "[/]",  yPos);
-            printBoard(fullBoard);
-            holder = blocksClass.getBottom();
-            heights = blocksClass.getTop();
+            blocksClass.moveBlock(fullBoard, "[/]", "[ ]",  blocksClass.yPos);
+            //printBoard(fullBoard);
+            blocksClass.holder = blocksClass.getBottom();
+            blocksClass.heights = blocksClass.getTop();
 
-            int position = holder[0][1];
+            int position = blocksClass.holder[0][1];
             
-            if (position + yPos == (boardHeight - (heights[0][1])))
+            if (position + blocksClass.yPos == (boardHeight - (blocksClass.heights[0][1])))
             {
-                brickOnScreen = false;
-                yPos = 0;
-                inAir = false;
+                blocksClass.brickOnScreen = false;
+                blocksClass.yPos = 0;
+                blocksClass.inAir = false;
             } 
             
-            if (inAir)
+            if (blocksClass.inAir)
             {
-                blocksClass.moveBlock(fullBoard, "[ ]", yPos);
+                //blocksClass.moveBlock(fullBoard, "[ ]", yPos);
             }
             
-            if (yPos < (boardHeight - (heights[0][1])))
+            if (blocksClass.yPos < (boardHeight - (blocksClass.heights[0][1])))
             {
-                yPos += 1;
-                inAir = true;
+                blocksClass.yPos += 1;
+                blocksClass.inAir = true;
             }
             
         }
@@ -352,6 +347,7 @@ void fixedUpdate(map<int, vector<string>> fullBoard, int boardHeight, int boardW
 //int argv, char **args
 int main()
 {
+    std::ios::sync_with_stdio(false);
     string response;
 
     blocksClass.blocksInit();
@@ -386,6 +382,7 @@ int main()
     vector<string> board;
     map<int, vector<string>> fullBoard;
     fullBoard = createBoard(board, blocksClass.boardWidth, blocksClass.boardHeight, fullBoard);
+    printBoard(fullBoard);
     fixedUpdate(fullBoard, blocksClass.boardHeight, blocksClass.boardWidth);
 
     std::cin >> response;

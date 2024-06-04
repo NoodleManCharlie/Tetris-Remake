@@ -7,6 +7,8 @@
 #include <string>
 #include <map>
 
+#include "Commands.h"
+
 using std::vector;
 using std::map;
 using std::string;
@@ -23,11 +25,24 @@ class Blocks
 
         int xAdd;
 
+        vector<int> bn;
+        vector<int> bi;
+        int bxAdd;
+        int byPos;
+
+        bool brickOnScreen = false;
+        int yPos = 0;
+        bool inAir = true;
+        vector<vector<int>> holder;
+        vector<vector<int>> heights;
+
         vector<vector<int>> curBlockPos;
         //vector<vector<int>> curBlockSize;
 
         vector<vector<int>> stashBlockPos;
         //vector<vector<int>> stashBlockSize;
+
+        Commands command;
 
         void blocksInit();
 
@@ -42,7 +57,9 @@ class Blocks
         vector<vector<int>> getTop();
         vector<vector<int>> getBottom();
 
-        void moveBlock(map<int, vector<string>> &fullBoard, string fill, int yPos);
+        void setCursorPosition(int x, int y);
+
+        void moveBlock(map<int, vector<string>> &fullBoard, string fill, string remove, int yPos);
 };
 
 #endif

@@ -9,6 +9,8 @@
 #include <string>
 #include <map>
 
+#include "include/commands.h"
+
 using std::vector;
 using std::string;
 using std::map;
@@ -19,13 +21,16 @@ void Blocks::blocksInit()
     srand(static_cast<unsigned int>(time(NULL)));
     setStashBlock();
     setCurrentBlock();
-    std::cout << "Initialized";
+    //std::cout << "Initialized";
 }
 
 void Blocks::setCurrentBlock()
 {
     Blocks::curBlockPos = stashBlockPos;
     setStashBlock();
+
+    bn.assign(blockSize, 0);
+    bi.assign(blockSize, 0);
 }
 
 void Blocks::setStashBlock()
@@ -303,15 +308,43 @@ vector<vector<int>> Blocks::getBottom()
     return hold;
 }
 
-void Blocks::moveBlock(map<int, vector<string>> &fullBoard, string fill, int yPos)
+void Blocks::moveBlock(map<int, vector<string>> &fullBoard, string fill, string remove, int yPos)
 {
+    command.setCursorPosition(0, 0);
+
+    //10 <- Info, *3 <- scale, -1 <- put in middle
     int i;
     int n;
+
+    if(inAir)
+    {
+        for(int b = 0; b < blockSize; b++)
+        {
+            i = bi[b];
+            n = bn[b];
+
+            //fullBoard[bi[b] + yPos][bn[b] + xAdd] = remove;
+
+            command.setCursorPosition(((n + bxAdd) * 3) + 10, i + byPos);
+            std::cout << remove;
+            command.setCursorPosition(0, 0);
+        }
+    }
 
     for(int b = 0; b < blockSize; b++)
     {
         n = curBlockPos[b][0];
         i = curBlockPos[b][1];
-        fullBoard[i + yPos][n + xAdd] = fill;
+
+        //fullBoard[i + yPos][n + xAdd] = fill;
+
+        command.setCursorPosition(((n + xAdd) * 3) + 10, i + yPos);
+        std::cout << fill;
+        command.setCursorPosition(0, 0);
+
+        bi[b] = curBlockPos[b][1];
+        bn[b] = curBlockPos[b][0];
+        bxAdd = xAdd;
+        byPos = yPos;
     }
 }
